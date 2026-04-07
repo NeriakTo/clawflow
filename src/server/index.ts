@@ -7,6 +7,9 @@
 
 import express from 'express';
 import { createServer as createHttpServer, type Server as HttpServer } from 'node:http';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+import { existsSync } from 'node:fs';
 import { resolveConfig, type ClawflowConfig } from '../core/config.js';
 import { getDb } from '../core/db/connection.js';
 import { runMigrations } from '../core/db/migrator.js';
@@ -86,6 +89,37 @@ export async function createServer(
 
   // ── 向後相容的 /api 路由（CLI 使用） ──────────────────────
   app.use('/api', apiV1Router);
+
+  // ── 靜態檔案 Serving（production 前端） ────────────────────
+  const currentDir = dirname(fileURLToPath(import.meta.url));
+  const webRoot = join(currentDir, '..', 'dist', 'web');
+  // tsup 輸出到 dist/index.js，所以 webRoot = dist/../dist/web = dist/web ✓
+  // 但打包後結構是 dist/index.js + dist/web/，修正為同層
+  const webRootAlt = join(currentDir, 'web');
+
+  const resolvedWebRoot = existsSync(webRootAlt) ? webRootAlt : webRoot;
+
+  if (existsSync(resolvedWebRoot)) {
+    app.use(express.static(resolvedWebRoot));
+
+    // SPA fallback：非 API 路由一律回傳 index.html（Express 5 用 middleware）
+    app.use((_req, res, next) => {
+      if (
+        _req.method !== 'GET' ||
+        _req.path.startsWith('/api') ||
+        _req.path.startsWith('/ws') ||
+        _req.path.includes('.')
+      ) {
+        return next();
+      }
+      const indexPath = join(resolvedWebRoot, 'index.html');
+      if (existsSync(indexPath)) {
+        res.sendFile(indexPath);
+      } else {
+        next();
+      }
+    });
+  }
 
   // ── 全域 Error Handler ────────────────────────────────────
   app.use(errorHandler);
