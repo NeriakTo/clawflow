@@ -9,21 +9,21 @@ import type { TaskStatus } from '../types';
 
 /** 狀態對應顏色 */
 const STATUS_COLOR_MAP: Record<TaskStatus, string> = {
-  backlog: '#4a5f82',
-  todo: '#4a5f82',
-  in_progress: '#4f8ff7',
-  review: '#fbbf24',
-  done: '#34d399',
-  archived: '#3a4a66',
+  backlog: '#71717a',
+  todo: '#71717a',
+  in_progress: '#3b82f6',
+  review: '#eab308',
+  done: '#22c55e',
+  archived: '#71717a',
 };
 
 /** 事件類型對應顏色 */
 function eventColor(event: string): string {
-  if (event.includes('completed') || event.includes('done')) return '#34d399';
-  if (event.includes('failed') || event.includes('error')) return '#f87171';
-  if (event.includes('started') || event.includes('in_progress')) return '#4f8ff7';
-  if (event.includes('created') || event.includes('registered')) return '#fbbf24';
-  return '#4a5f82';
+  if (event.includes('completed') || event.includes('done')) return '#22c55e';
+  if (event.includes('failed') || event.includes('error')) return '#ef4444';
+  if (event.includes('started') || event.includes('in_progress')) return '#3b82f6';
+  if (event.includes('created') || event.includes('registered')) return '#eab308';
+  return '#71717a';
 }
 
 /** SVG 環形圖元件 */
@@ -44,7 +44,7 @@ function DonutChart({ completed, total }: { readonly completed: number; readonly
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke="var(--color-border)"
+        stroke="#2e2e38"
         strokeWidth={strokeWidth}
       />
       {/* 進度環 */}
@@ -53,7 +53,7 @@ function DonutChart({ completed, total }: { readonly completed: number; readonly
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke="var(--color-success)"
+        stroke="#22c55e"
         strokeWidth={strokeWidth}
         strokeDasharray={circumference}
         strokeDashoffset={offset}
@@ -67,10 +67,10 @@ function DonutChart({ completed, total }: { readonly completed: number; readonly
         y="50%"
         textAnchor="middle"
         dominantBaseline="central"
-        fill="var(--color-text)"
+        fill="#e4e4e7"
         fontSize="24"
         fontWeight="bold"
-        fontFamily="var(--font-mono)"
+        fontFamily="'Fira Code', monospace"
       >
         {percentage}%
       </text>
@@ -89,17 +89,11 @@ function StatCard({
   readonly color: string;
 }) {
   return (
-    <div
-      className="rounded-xl p-4 flex flex-col gap-1"
-      style={{
-        backgroundColor: 'var(--color-card)',
-        border: '1px solid var(--color-border)',
-      }}
-    >
-      <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+    <div className="rounded-xl p-4 flex flex-col gap-1 bg-surface border border-border">
+      <span className="text-xs text-text-muted">
         {label}
       </span>
-      <span className="text-2xl font-bold" style={{ color, fontFamily: 'var(--font-mono)' }}>
+      <span className="text-2xl font-bold font-['Fira_Code']" style={{ color }}>
         {value}
       </span>
     </div>
@@ -174,46 +168,34 @@ function DashboardView() {
       <div className="max-w-6xl mx-auto">
         {/* 統計卡片列 */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <StatCard label="任務總數" value={displayStats.total} color="var(--color-text)" />
-          <StatCard label="進行中" value={displayStats.inProgress} color="var(--color-primary)" />
-          <StatCard label="已完成" value={displayStats.done} color="var(--color-success)" />
-          <StatCard label="失敗" value={displayStats.failed} color="var(--color-danger)" />
+          <StatCard label="任務總數" value={displayStats.total} color="#e4e4e7" />
+          <StatCard label="進行中" value={displayStats.inProgress} color="#4f8ff7" />
+          <StatCard label="已完成" value={displayStats.done} color="#22c55e" />
+          <StatCard label="失敗" value={displayStats.failed} color="#ef4444" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* 完成率環形圖 */}
-          <div
-            className="rounded-xl p-4"
-            style={{
-              backgroundColor: 'var(--color-card)',
-              border: '1px solid var(--color-border)',
-            }}
-          >
-            <h3 className="font-semibold mb-4" style={{ color: 'var(--color-text-secondary)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>
+          <div className="rounded-xl p-4 bg-surface border border-border">
+            <h3 className="text-sm font-semibold text-text mb-4">
               完成率
             </h3>
             <div className="flex items-center justify-center">
               <DonutChart completed={displayStats.done} total={displayStats.total} />
             </div>
-            <div className="flex justify-center gap-4 mt-4 text-xs" style={{ color: 'var(--color-text-muted)' }}>
+            <div className="flex justify-center gap-4 mt-4 text-xs text-text-muted">
               <span>已完成 {displayStats.done}</span>
               <span>總數 {displayStats.total}</span>
             </div>
           </div>
 
           {/* Agent 負載分配 */}
-          <div
-            className="rounded-xl p-4"
-            style={{
-              backgroundColor: 'var(--color-card)',
-              border: '1px solid var(--color-border)',
-            }}
-          >
-            <h3 className="font-semibold mb-4" style={{ color: 'var(--color-text-secondary)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>
+          <div className="rounded-xl p-4 bg-surface border border-border">
+            <h3 className="text-sm font-semibold text-text mb-4">
               Agent 負載分配
             </h3>
             {agentLoad.length === 0 ? (
-              <div className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+              <div className="text-xs text-text-muted">
                 尚無 Agent 任務分配
               </div>
             ) : (
@@ -221,15 +203,14 @@ function DashboardView() {
                 {agentLoad.map((item) => (
                   <div key={item.agentId}>
                     <div className="flex justify-between text-xs mb-1">
-                      <span style={{ color: 'var(--color-text-secondary)' }}>{item.agentName}</span>
-                      <span style={{ color: 'var(--color-text-muted)' }}>{item.count} 個任務</span>
+                      <span className="text-text-secondary">{item.agentName}</span>
+                      <span className="text-text-muted">{item.count} 個任務</span>
                     </div>
-                    <div className="w-full h-2 rounded-full" style={{ backgroundColor: 'var(--color-border)' }}>
+                    <div className="w-full h-2 rounded-full bg-border">
                       <div
-                        className="h-full rounded-full transition-all"
+                        className="h-full rounded-full transition-all bg-accent"
                         style={{
                           width: `${(item.count / maxLoad) * 100}%`,
-                          backgroundColor: 'var(--color-primary)',
                         }}
                       />
                     </div>
@@ -240,25 +221,18 @@ function DashboardView() {
           </div>
 
           {/* 最近事件時間線 */}
-          <div
-            className="rounded-xl p-4"
-            style={{
-              backgroundColor: 'var(--color-card)',
-              border: '1px solid var(--color-border)',
-            }}
-          >
-            <h3 className="font-semibold mb-4" style={{ color: 'var(--color-text-secondary)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>
+          <div className="rounded-xl p-4 bg-surface border border-border">
+            <h3 className="text-sm font-semibold text-text mb-4">
               最近事件
             </h3>
             {events.length === 0 ? (
-              <div className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+              <div className="text-xs text-text-muted">
                 尚無事件
               </div>
             ) : (
               <div className="flex flex-col gap-0 max-h-[400px] overflow-y-auto">
                 {events.map((evt) => (
-                  <div key={evt.id} className="flex items-start gap-3 py-2 border-b last:border-b-0"
-                       style={{ borderColor: 'rgba(30, 45, 69, 0.3)' }}>
+                  <div key={evt.id} className="flex items-start gap-3 py-2 border-b border-border/30 last:border-b-0">
                     {/* 時間線圓點 */}
                     <div className="flex flex-col items-center pt-1">
                       <span
@@ -267,10 +241,10 @@ function DashboardView() {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-xs" style={{ color: 'var(--color-text)' }}>
+                      <div className="text-xs text-text">
                         {evt.message}
                       </div>
-                      <div className="flex items-center gap-2 mt-0.5 text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
+                      <div className="flex items-center gap-2 mt-0.5 text-[10px] text-text-muted">
                         <span>{evt.source}</span>
                         <span>{formatTimeAgo(evt.timestamp)}</span>
                       </div>
@@ -283,17 +257,11 @@ function DashboardView() {
         </div>
 
         {/* 任務狀態分布（底部小圖） */}
-        <div
-          className="rounded-xl p-4 mt-4"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            border: '1px solid var(--color-border)',
-          }}
-        >
-          <h3 className="font-semibold mb-3" style={{ color: 'var(--color-text-secondary)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>
+        <div className="rounded-xl p-4 mt-4 bg-surface border border-border">
+          <h3 className="text-sm font-semibold text-text mb-3">
             任務狀態分布
           </h3>
-          <div className="flex gap-2 h-4 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--color-border)' }}>
+          <div className="flex gap-2 h-4 rounded-full overflow-hidden bg-border">
             {tasks.length > 0 &&
               (['backlog', 'todo', 'in_progress', 'review', 'done', 'archived'] as const).map((status) => {
                 const count = tasks.filter((t) => t.status === status).length;
@@ -317,7 +285,7 @@ function DashboardView() {
               const count = tasks.filter((t) => t.status === status).length;
               if (count === 0) return null;
               return (
-                <span key={status} className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                <span key={status} className="flex items-center gap-1.5 text-xs text-text-muted">
                   <span
                     className="inline-block w-2 h-2 rounded-full"
                     style={{ backgroundColor: STATUS_COLOR_MAP[status] }}

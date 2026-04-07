@@ -7,21 +7,18 @@ interface PriorityBadgeProps {
   readonly priority: TaskPriority;
 }
 
-const PRIORITY_CONFIG: Record<TaskPriority, { readonly label: string; readonly bg: string; readonly text: string }> = {
-  critical: { label: '緊急', bg: '#3b1219', text: '#f87171' },
-  high: { label: '高', bg: '#3b2506', text: '#fbbf24' },
-  medium: { label: '中', bg: '#152040', text: '#4f8ff7' },
-  low: { label: '低', bg: '#1a2438', text: '#4a5f82' },
+const PRIORITY_CONFIG: Record<TaskPriority, { readonly label: string; readonly classes: string }> = {
+  critical: { label: '緊急', classes: 'bg-red-500/20 text-red-400' },
+  high: { label: '高', classes: 'bg-orange-500/20 text-orange-400' },
+  medium: { label: '中', classes: 'bg-blue-500/20 text-blue-400' },
+  low: { label: '低', classes: 'bg-gray-500/20 text-gray-400' },
 };
 
 function PriorityBadge({ priority }: PriorityBadgeProps) {
   const config = PRIORITY_CONFIG[priority];
 
   return (
-    <span
-      className="inline-flex items-center px-1.5 py-px rounded-full text-[10px] font-medium leading-tight"
-      style={{ backgroundColor: config.bg, color: config.text }}
-    >
+    <span className={`text-xs px-1.5 py-0.5 rounded-md ${config.classes}`}>
       {config.label}
     </span>
   );

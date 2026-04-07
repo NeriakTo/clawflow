@@ -11,11 +11,11 @@ import CreateTaskModal from '../components/CreateTaskModal';
 
 /** 看板欄位定義 */
 const BOARD_COLUMNS: readonly { readonly status: TaskStatus; readonly label: string; readonly color: string }[] = [
-  { status: 'backlog', label: '待辦列', color: '#4a5f82' },
-  { status: 'todo', label: '待處理', color: '#4f8ff7' },
-  { status: 'in_progress', label: '進行中', color: '#34d399' },
-  { status: 'review', label: '審查中', color: '#fbbf24' },
-  { status: 'done', label: '已完成', color: '#34d399' },
+  { status: 'backlog', label: '待辦列', color: '#71717a' },
+  { status: 'todo', label: '待處理', color: '#71717a' },
+  { status: 'in_progress', label: '進行中', color: '#3b82f6' },
+  { status: 'review', label: '審查中', color: '#eab308' },
+  { status: 'done', label: '已完成', color: '#22c55e' },
 ];
 
 const PRIORITY_OPTIONS: readonly TaskPriority[] = ['critical', 'high', 'medium', 'low'];
@@ -98,33 +98,21 @@ function BoardView() {
   return (
     <div className="flex flex-col h-full">
       {/* 頂部工具列 */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b"
-           style={{ borderColor: 'var(--color-border)' }}>
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-border">
         {/* 搜尋 */}
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="搜尋任務..."
-          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none focus:ring-2 w-64"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            border: '1px solid var(--color-border)',
-            color: 'var(--color-text)',
-            '--tw-ring-color': 'var(--color-primary)',
-          } as React.CSSProperties}
+          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent w-64 bg-surface2 border border-border text-text"
         />
 
         {/* 優先級篩選 */}
         <select
           value={filters.priority ?? ''}
           onChange={(e) => { const v = e.target.value; setFilters({ ...filters, priority: v ? v as TaskPriority : undefined }); }}
-          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            border: '1px solid var(--color-border)',
-            color: 'var(--color-text)',
-          }}
+          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none bg-surface2 border border-border text-text"
         >
           <option value="">所有優先級</option>
           {PRIORITY_OPTIONS.map((p) => (
@@ -136,12 +124,7 @@ function BoardView() {
         <select
           value={filters.assignee ?? ''}
           onChange={(e) => { const v = e.target.value; setFilters({ ...filters, assignee: v || undefined }); }}
-          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            border: '1px solid var(--color-border)',
-            color: 'var(--color-text)',
-          }}
+          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none bg-surface2 border border-border text-text"
         >
           <option value="">所有 Agent</option>
           {agents.map((a) => (
@@ -153,12 +136,7 @@ function BoardView() {
         <select
           value={filters.tag ?? ''}
           onChange={(e) => { const v = e.target.value; setFilters({ ...filters, tag: v || undefined }); }}
-          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            border: '1px solid var(--color-border)',
-            color: 'var(--color-text)',
-          }}
+          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none bg-surface2 border border-border text-text"
         >
           <option value="">所有標籤</option>
           {allTags.map((tag) => (
@@ -171,8 +149,7 @@ function BoardView() {
         {/* 新增任務按鈕 */}
         <button
           onClick={() => setShowCreateModal(true)}
-          className="px-4 py-1.5 rounded-lg text-sm font-medium text-white"
-          style={{ backgroundColor: 'var(--color-primary)' }}
+          className="px-4 py-1.5 rounded-lg text-sm font-medium text-white bg-accent"
         >
           + 新增任務
         </button>
@@ -180,16 +157,14 @@ function BoardView() {
 
       {/* 錯誤訊息 */}
       {error && (
-        <div className="mx-4 mt-2 px-3 py-2 rounded text-sm"
-             style={{ backgroundColor: '#450a0a', color: 'var(--color-danger)', border: '1px solid var(--color-danger)' }}>
+        <div className="mx-4 mt-2 px-3 py-2 rounded text-sm bg-red-500/10 text-danger border border-danger">
           {error}
         </div>
       )}
 
       {/* 載入中 */}
       {loading && (
-        <div className="flex items-center justify-center py-12"
-             style={{ color: 'var(--color-text-muted)' }}>
+        <div className="flex items-center justify-center py-12 text-text-muted">
           載入中...
         </div>
       )}
@@ -203,52 +178,29 @@ function BoardView() {
           return (
             <div
               key={col.status}
-              className="flex flex-col min-w-[280px] max-w-[320px] flex-1 rounded-xl"
-              style={{
-                backgroundColor: isDragOver ? 'rgba(79, 143, 247, 0.08)' : 'rgba(20, 29, 47, 0.5)',
-                border: `1px solid ${isDragOver ? 'var(--color-primary)' : 'var(--color-border)'}`,
-                transition: 'border-color 0.15s, background-color 0.15s',
-              }}
+              className={`flex flex-col min-w-[280px] w-[280px] rounded-xl border bg-surface transition-colors ${
+                isDragOver ? 'border-accent bg-accent/5' : 'border-border'
+              }`}
               onDragOver={(e) => handleDragOver(e, col.status)}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, col.status)}
             >
               {/* 欄位標頭 */}
-              <div className="flex items-center justify-between px-3 py-2.5 border-b"
-                   style={{ borderColor: 'var(--color-border)' }}>
-                <div className="flex items-center gap-2">
-                  <span
-                    className="inline-block w-2 h-2 rounded-full"
-                    style={{ backgroundColor: col.color }}
-                  />
-                  <span
-                    className="font-semibold"
-                    style={{
-                      color: 'var(--color-text-secondary)',
-                      fontSize: '10px',
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase' as const,
-                    }}
-                  >
-                    {col.label}
-                  </span>
-                </div>
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-inherit">
                 <span
-                  className="px-1.5 rounded-full"
-                  style={{
-                    backgroundColor: 'rgba(30, 45, 69, 0.6)',
-                    color: 'var(--color-text-muted)',
-                    fontSize: '10px',
-                    fontFamily: 'var(--font-mono)',
-                    lineHeight: '18px',
-                  }}
-                >
+                  className="inline-block h-3 w-3 rounded-full"
+                  style={{ backgroundColor: col.color }}
+                />
+                <span className="font-semibold text-sm text-text">
+                  {col.label}
+                </span>
+                <span className="text-xs px-1.5 py-0.5 rounded-md bg-surface2 text-text-muted font-['Fira_Code']">
                   {columnTasks.length}
                 </span>
               </div>
 
               {/* 卡片列表 */}
-              <div className="flex-1 flex flex-col gap-2 p-2 overflow-y-auto">
+              <div className="flex-1 overflow-y-auto p-2 space-y-2 min-h-[120px]">
                 {columnTasks.map((task) => (
                   <TaskCard
                     key={task.id}
@@ -257,7 +209,7 @@ function BoardView() {
                   />
                 ))}
                 {columnTasks.length === 0 && !loading && (
-                  <div className="text-center py-6 text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                  <div className="text-center py-8 text-sm text-text-muted">
                     尚無任務
                   </div>
                 )}

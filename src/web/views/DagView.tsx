@@ -23,12 +23,12 @@ import TaskModal from '../components/TaskModal';
 
 /** 狀態對應顏色（MiniMap 用） */
 const STATUS_COLOR_MAP: Record<TaskStatus, string> = {
-  backlog: '#64748b',
-  todo: '#64748b',
+  backlog: '#71717a',
+  todo: '#71717a',
   in_progress: '#3b82f6',
-  review: '#f59e0b',
+  review: '#eab308',
   done: '#22c55e',
-  archived: '#64748b',
+  archived: '#71717a',
 };
 
 /** 自訂節點類型 */
@@ -74,8 +74,8 @@ function layoutGraph(
         source: depId,
         target: task.id,
         animated: true,
-        style: { stroke: 'var(--color-text-muted)' },
-        markerEnd: { type: MarkerType.ArrowClosed, color: '#64748b' },
+        style: { stroke: '#71717a' },
+        markerEnd: { type: MarkerType.ArrowClosed, color: '#71717a' },
       });
     }
   }
@@ -193,13 +193,12 @@ function DagView() {
   /** MiniMap 節點顏色 */
   const miniMapNodeColor = useCallback((node: Node): string => {
     const status = (node.data as Record<string, unknown>)['status'] as TaskStatus | undefined;
-    return status ? STATUS_COLOR_MAP[status] : '#64748b';
+    return status ? STATUS_COLOR_MAP[status] : '#71717a';
   }, []);
 
   if (loading && tasks.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full"
-           style={{ color: 'var(--color-text-muted)' }}>
+      <div className="flex items-center justify-center h-full text-text-muted">
         載入中...
       </div>
     );
@@ -207,10 +206,9 @@ function DagView() {
 
   if (tasks.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full"
-           style={{ color: 'var(--color-text-muted)' }}>
+      <div className="flex items-center justify-center h-full text-text-muted">
         <div className="text-center">
-          <div className="text-lg font-medium mb-1" style={{ color: 'var(--color-text-secondary)' }}>
+          <div className="text-lg font-medium mb-1 text-text-secondary">
             尚無任務
           </div>
           <p className="text-sm">在看板中新增任務後，這裡會顯示依賴關係圖</p>
@@ -220,7 +218,7 @@ function DagView() {
   }
 
   return (
-    <div className="h-full w-full" style={{ backgroundColor: 'var(--color-bg)' }}>
+    <div className="h-full w-full bg-bg">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -231,19 +229,19 @@ function DagView() {
         fitView
         proOptions={{ hideAttribution: true }}
       >
-        <Background color="var(--color-border)" gap={20} />
+        <Background color="#2e2e38" gap={20} />
         <Controls
           style={{
-            backgroundColor: 'var(--color-card)',
-            border: '1px solid var(--color-border)',
+            backgroundColor: '#1a1a1f',
+            border: '1px solid #2e2e38',
             borderRadius: '0.5rem',
           }}
         />
         <MiniMap
           nodeColor={miniMapNodeColor}
           style={{
-            backgroundColor: 'var(--color-card)',
-            border: '1px solid var(--color-border)',
+            backgroundColor: '#1a1a1f',
+            border: '1px solid #2e2e38',
             borderRadius: '0.5rem',
           }}
         />

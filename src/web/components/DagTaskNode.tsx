@@ -16,12 +16,12 @@ interface DagTaskNodeData {
 
 /** 狀態對應顏色 */
 const STATUS_COLOR_MAP: Record<TaskStatus, string> = {
-  backlog: '#64748b',
-  todo: '#64748b',
+  backlog: '#71717a',
+  todo: '#71717a',
   in_progress: '#3b82f6',
-  review: '#f59e0b',
+  review: '#eab308',
   done: '#22c55e',
-  archived: '#64748b',
+  archived: '#71717a',
 };
 
 /** 狀態中文標籤 */
@@ -36,21 +36,18 @@ const STATUS_LABEL_MAP: Record<TaskStatus, string> = {
 
 function DagTaskNode({ data }: NodeProps) {
   const nodeData = data as unknown as DagTaskNodeData;
-  const borderColor = STATUS_COLOR_MAP[nodeData.status] ?? '#64748b';
+  const borderColor = STATUS_COLOR_MAP[nodeData.status] ?? '#71717a';
   const statusLabel = STATUS_LABEL_MAP[nodeData.status] ?? nodeData.status;
 
   return (
     <div
-      className="rounded-lg px-3 py-2 min-w-[180px] max-w-[240px] shadow-lg"
-      style={{
-        backgroundColor: 'var(--color-card)',
-        border: `2px solid ${borderColor}`,
-      }}
+      className="rounded-lg px-3 py-2 min-w-[180px] max-w-[240px] bg-surface border-2 border-border"
+      style={{ borderColor }}
     >
       <Handle type="target" position={Position.Top} style={{ background: borderColor }} />
 
       {/* 標題 */}
-      <div className="text-xs font-medium mb-1.5 leading-tight" style={{ color: 'var(--color-text)' }}>
+      <div className="text-xs font-medium mb-1.5 leading-tight text-text">
         {nodeData.label}
       </div>
 
@@ -60,22 +57,19 @@ function DagTaskNode({ data }: NodeProps) {
           className="inline-block w-2 h-2 rounded-full"
           style={{ backgroundColor: borderColor }}
         />
-        <span className="text-[10px]" style={{ color: 'var(--color-text-secondary)' }}>
+        <span className="text-[10px] text-text-secondary">
           {statusLabel}
         </span>
       </div>
 
       {/* Progress bar */}
       {nodeData.progress > 0 && (
-        <div
-          className="w-full h-1 rounded-full mb-1.5"
-          style={{ backgroundColor: 'var(--color-border)' }}
-        >
+        <div className="w-full h-1 rounded-full mb-1.5 bg-border">
           <div
             className="h-full rounded-full transition-all"
             style={{
               width: `${nodeData.progress}%`,
-              backgroundColor: nodeData.progress === 100 ? 'var(--color-success)' : 'var(--color-primary)',
+              backgroundColor: nodeData.progress === 100 ? '#22c55e' : '#4f8ff7',
             }}
           />
         </div>
@@ -83,7 +77,7 @@ function DagTaskNode({ data }: NodeProps) {
 
       {/* Assignee */}
       {nodeData.assignee && (
-        <div className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
+        <div className="text-[10px] text-text-muted">
           {nodeData.assignee}
         </div>
       )}

@@ -8,7 +8,7 @@ import { useTaskStore } from '../stores/task.store';
 
 /** Agent 狀態指示燈顏色 */
 const AGENT_STATUS_COLOR: Record<AgentStatus, string> = {
-  idle: '#64748b',
+  idle: '#71717a',
   working: '#3b82f6',
   completed: '#22c55e',
   error: '#ef4444',
@@ -16,12 +16,12 @@ const AGENT_STATUS_COLOR: Record<AgentStatus, string> = {
 
 /** 任務狀態顏色（歷史列表用） */
 const TASK_STATUS_COLOR: Record<TaskStatus, string> = {
-  backlog: '#64748b',
-  todo: '#64748b',
+  backlog: '#71717a',
+  todo: '#71717a',
   in_progress: '#3b82f6',
-  review: '#f59e0b',
+  review: '#eab308',
   done: '#22c55e',
-  archived: '#475569',
+  archived: '#71717a',
 };
 
 /** 狀態中文標籤 */
@@ -67,10 +67,9 @@ function AgentView() {
 
   if (agents.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full"
-           style={{ color: 'var(--color-text-muted)' }}>
+      <div className="flex items-center justify-center h-full text-text-muted">
         <div className="text-center">
-          <div className="text-lg font-medium mb-1" style={{ color: 'var(--color-text-secondary)' }}>
+          <div className="text-lg font-medium mb-1 text-text-secondary">
             尚無 Agent
           </div>
           <p className="text-sm">等待 Agent 註冊後將自動顯示</p>
@@ -83,7 +82,7 @@ function AgentView() {
     <div className="h-full overflow-y-auto p-4">
       {/* 頂部統計 */}
       <div className="flex items-center gap-4 mb-4">
-        <span className="text-sm font-medium" style={{ color: 'var(--color-text)' }}>
+        <span className="text-sm font-medium text-text">
           Agent 總數：{agents.length}
         </span>
         <div className="flex gap-3">
@@ -91,7 +90,7 @@ function AgentView() {
             const count = agents.filter((a) => a.status === status).length;
             if (count === 0) return null;
             return (
-              <span key={status} className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+              <span key={status} className="flex items-center gap-1.5 text-xs text-text-secondary">
                 <span
                   className="inline-block w-2 h-2 rounded-full"
                   style={{ backgroundColor: AGENT_STATUS_COLOR[status] }}
@@ -113,11 +112,9 @@ function AgentView() {
           return (
             <div
               key={agent.id}
-              className="rounded-xl overflow-hidden transition-all cursor-pointer"
-              style={{
-                backgroundColor: 'var(--color-card)',
-                border: `1px solid ${isExpanded ? 'var(--color-primary)' : 'var(--color-border)'}`,
-              }}
+              className={`rounded-xl overflow-hidden transition-colors cursor-pointer bg-surface border ${
+                isExpanded ? 'border-accent' : 'border-border hover:border-gray-500'
+              }`}
               onClick={() => toggleExpand(agent.id)}
             >
               {/* 卡片標頭 */}
@@ -129,17 +126,14 @@ function AgentView() {
                       className="inline-block w-3 h-3 rounded-full flex-shrink-0"
                       style={{
                         backgroundColor: AGENT_STATUS_COLOR[agent.status],
-                        boxShadow: agent.status === 'working'
-                          ? `0 0 8px ${AGENT_STATUS_COLOR[agent.status]}`
-                          : 'none',
                         animation: agent.status === 'working' ? 'pulse 2s infinite' : 'none',
                       }}
                     />
                     <div>
-                      <div className="text-sm font-medium" style={{ color: 'var(--color-text)' }}>
+                      <div className="text-sm font-medium text-text">
                         {agent.name}
                       </div>
-                      <div className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
+                      <div className="text-[10px] text-text-muted">
                         {agent.type}
                       </div>
                     </div>
@@ -156,33 +150,24 @@ function AgentView() {
                 </div>
 
                 {/* Adapter */}
-                <div className="text-xs mb-2" style={{ color: 'var(--color-text-muted)' }}>
-                  Adapter: <span style={{ color: 'var(--color-text-secondary)' }}>{agent.adapterId}</span>
+                <div className="text-xs mb-2 text-text-muted">
+                  Adapter: <span className="text-text-secondary">{agent.adapterId}</span>
                 </div>
 
                 {/* 當前任務 */}
                 {currentTask && (
-                  <div
-                    className="rounded-lg px-3 py-2 mb-2"
-                    style={{
-                      backgroundColor: 'rgba(59, 130, 246, 0.08)',
-                      border: '1px solid rgba(59, 130, 246, 0.2)',
-                    }}
-                  >
-                    <div className="text-[10px] mb-0.5" style={{ color: 'var(--color-primary)' }}>
+                  <div className="rounded-lg px-3 py-2 mb-2 bg-accent/10 border border-accent/20">
+                    <div className="text-[10px] mb-0.5 text-accent">
                       當前任務
                     </div>
-                    <div className="text-xs font-medium" style={{ color: 'var(--color-text)' }}>
+                    <div className="text-xs font-medium text-text">
                       {currentTask.title}
                     </div>
                     {currentTask.progress > 0 && (
-                      <div className="w-full h-1 rounded-full mt-1.5" style={{ backgroundColor: 'var(--color-border)' }}>
+                      <div className="w-full h-1 rounded-full mt-1.5 bg-border">
                         <div
-                          className="h-full rounded-full"
-                          style={{
-                            width: `${currentTask.progress}%`,
-                            backgroundColor: 'var(--color-primary)',
-                          }}
+                          className="h-full rounded-full bg-accent"
+                          style={{ width: `${currentTask.progress}%` }}
                         />
                       </div>
                     )}
@@ -195,11 +180,7 @@ function AgentView() {
                     {agent.capabilities.map((cap) => (
                       <span
                         key={cap}
-                        className="px-1.5 py-0.5 rounded text-[10px]"
-                        style={{
-                          backgroundColor: 'var(--color-border)',
-                          color: 'var(--color-text-secondary)',
-                        }}
+                        className="px-1.5 py-0.5 rounded text-[10px] bg-border text-text-secondary"
                       >
                         {cap}
                       </span>
@@ -210,15 +191,12 @@ function AgentView() {
 
               {/* 展開：歷史任務列表 */}
               {isExpanded && (
-                <div
-                  className="border-t px-4 py-3"
-                  style={{ borderColor: 'var(--color-border)' }}
-                >
-                  <div className="text-xs font-medium mb-2" style={{ color: 'var(--color-text-secondary)' }}>
+                <div className="border-t border-border px-4 py-3">
+                  <div className="text-xs font-medium mb-2 text-text-secondary">
                     歷史任務（{agentTasks.length}）
                   </div>
                   {agentTasks.length === 0 ? (
-                    <div className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                    <div className="text-xs text-text-muted">
                       尚無任務紀錄
                     </div>
                   ) : (
@@ -226,15 +204,14 @@ function AgentView() {
                       {agentTasks.map((task) => (
                         <div
                           key={task.id}
-                          className="flex items-center justify-between px-2 py-1.5 rounded"
-                          style={{ backgroundColor: 'rgba(15, 23, 42, 0.5)' }}
+                          className="flex items-center justify-between px-2 py-1.5 rounded bg-surface2"
                         >
-                          <span className="text-xs truncate flex-1" style={{ color: 'var(--color-text)' }}>
+                          <span className="text-xs truncate flex-1 text-text">
                             {task.title}
                           </span>
                           <span
                             className="text-[10px] ml-2 flex-shrink-0"
-                            style={{ color: TASK_STATUS_COLOR[task.status] ?? 'var(--color-text-muted)' }}
+                            style={{ color: TASK_STATUS_COLOR[task.status] ?? '#71717a' }}
                           >
                             {task.status}
                           </span>

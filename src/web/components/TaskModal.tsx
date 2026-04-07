@@ -78,8 +78,7 @@ function TaskModal({ task, onClose }: TaskModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="text-sm px-2 py-1 rounded hover:opacity-80"
-              style={{ color: 'var(--color-text-muted)' }}
+              className="text-sm px-2 py-1 rounded hover:opacity-80 text-text-muted"
             >
               ✕
             </button>
@@ -91,13 +90,7 @@ function TaskModal({ task, onClose }: TaskModalProps) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="w-full px-3 py-2 rounded-lg mb-3 text-sm focus:outline-none focus:ring-2"
-            style={{
-              backgroundColor: 'var(--color-bg)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text)',
-              '--tw-ring-color': 'var(--color-primary)',
-            } as React.CSSProperties}
+            className="w-full px-3 py-2 rounded-lg mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-bg border border-border text-text"
             placeholder="任務標題"
           />
 
@@ -106,29 +99,18 @@ function TaskModal({ task, onClose }: TaskModalProps) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
-            className="w-full px-3 py-2 rounded-lg mb-3 text-sm resize-none focus:outline-none focus:ring-2"
-            style={{
-              backgroundColor: 'var(--color-bg)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text)',
-              '--tw-ring-color': 'var(--color-primary)',
-            } as React.CSSProperties}
+            className="w-full px-3 py-2 rounded-lg mb-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent bg-bg border border-border text-text"
             placeholder="任務描述（選填）"
           />
 
           {/* 狀態 & 優先級 */}
           <div className="grid grid-cols-2 gap-3 mb-3">
             <div>
-              <label className="block text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>狀態</label>
+              <label className="block text-xs mb-1 text-text-muted">狀態</label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as TaskStatus)}
-                className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none"
-                style={{
-                  backgroundColor: 'var(--color-bg)',
-                  border: '1px solid var(--color-border)',
-                  color: 'var(--color-text)',
-                }}
+                className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none bg-bg border border-border text-text"
               >
                 {STATUS_OPTIONS.map((s) => (
                   <option key={s} value={s}>{s}</option>
@@ -136,16 +118,11 @@ function TaskModal({ task, onClose }: TaskModalProps) {
               </select>
             </div>
             <div>
-              <label className="block text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>優先級</label>
+              <label className="block text-xs mb-1 text-text-muted">優先級</label>
               <select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value as TaskPriority)}
-                className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none"
-                style={{
-                  backgroundColor: 'var(--color-bg)',
-                  border: '1px solid var(--color-border)',
-                  color: 'var(--color-text)',
-                }}
+                className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none bg-bg border border-border text-text"
               >
                 {PRIORITY_OPTIONS.map((p) => (
                   <option key={p} value={p}>{p}</option>
@@ -156,17 +133,12 @@ function TaskModal({ task, onClose }: TaskModalProps) {
 
           {/* Tags */}
           <div className="mb-3">
-            <label className="block text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>標籤（逗號分隔）</label>
+            <label className="block text-xs mb-1 text-text-muted">標籤（逗號分隔）</label>
             <input
               type="text"
               value={tags}
               onChange={(e) => setTags(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none"
-              style={{
-                backgroundColor: 'var(--color-bg)',
-                border: '1px solid var(--color-border)',
-                color: 'var(--color-text)',
-              }}
+              className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none bg-bg border border-border text-text"
               placeholder="例：frontend, urgent"
             />
           </div>
@@ -174,13 +146,12 @@ function TaskModal({ task, onClose }: TaskModalProps) {
           {/* 依賴關係 */}
           {task.dependencies.length > 0 && (
             <div className="mb-3">
-              <label className="block text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>依賴任務</label>
+              <label className="block text-xs mb-1 text-text-muted">依賴任務</label>
               <div className="flex flex-wrap gap-1">
                 {task.dependencies.map((depId) => (
                   <span
                     key={depId}
-                    className="px-2 py-0.5 rounded text-xs"
-                    style={{ backgroundColor: 'var(--color-border)', color: 'var(--color-text-secondary)' }}
+                    className="px-2 py-0.5 rounded text-xs bg-border text-text-secondary"
                   >
                     {depId.slice(0, 8)}...
                   </span>
@@ -191,15 +162,15 @@ function TaskModal({ task, onClose }: TaskModalProps) {
 
           {/* 進度 */}
           <div className="mb-4">
-            <label className="block text-xs mb-1" style={{ color: 'var(--color-text-muted)' }}>
+            <label className="block text-xs mb-1 text-text-muted">
               進度：{task.progress}%
             </label>
-            <div className="w-full h-2 rounded-full" style={{ backgroundColor: 'var(--color-border)' }}>
+            <div className="w-full h-2 rounded-full bg-border">
               <div
                 className="h-full rounded-full"
                 style={{
                   width: `${task.progress}%`,
-                  backgroundColor: task.progress === 100 ? 'var(--color-success)' : 'var(--color-primary)',
+                  backgroundColor: task.progress === 100 ? '#22c55e' : '#4f8ff7',
                 }}
               />
             </div>
@@ -210,8 +181,7 @@ function TaskModal({ task, onClose }: TaskModalProps) {
             <button
               type="button"
               onClick={handleDelete}
-              className="px-3 py-1.5 rounded text-sm font-medium"
-              style={{ color: 'var(--color-danger)' }}
+              className="px-3 py-1.5 rounded text-sm font-medium text-danger"
             >
               刪除
             </button>
@@ -219,16 +189,14 @@ function TaskModal({ task, onClose }: TaskModalProps) {
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-1.5 rounded text-sm font-medium"
-                style={{ backgroundColor: 'var(--color-border)', color: 'var(--color-text)' }}
+                className="px-4 py-1.5 rounded text-sm font-medium bg-border text-text"
               >
                 取消
               </button>
               <button
                 type="submit"
                 disabled={saving || !title.trim()}
-                className="px-4 py-1.5 rounded text-sm font-medium text-white disabled:opacity-50"
-                style={{ backgroundColor: 'var(--color-primary)' }}
+                className="px-4 py-1.5 rounded text-sm font-medium text-white disabled:opacity-50 bg-accent"
               >
                 {saving ? '儲存中...' : '儲存'}
               </button>

@@ -8,12 +8,12 @@ import { useAgentStore } from '../stores/agent.store';
 
 /** 狀態對應顏色 */
 const STATUS_COLOR_MAP: Record<TaskStatus, string> = {
-  backlog: '#4a5f82',
-  todo: '#4a5f82',
-  in_progress: '#4f8ff7',
-  review: '#fbbf24',
-  done: '#34d399',
-  archived: '#3a4a66',
+  backlog: '#71717a',
+  todo: '#71717a',
+  in_progress: '#3b82f6',
+  review: '#eab308',
+  done: '#22c55e',
+  archived: '#71717a',
 };
 
 /** 狀態中文標籤 */
@@ -159,8 +159,7 @@ function TimelineView() {
 
   if (loading && tasks.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full"
-           style={{ color: 'var(--color-text-muted)' }}>
+      <div className="flex items-center justify-center h-full text-text-muted">
         載入中...
       </div>
     );
@@ -168,10 +167,9 @@ function TimelineView() {
 
   if (tasks.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full"
-           style={{ color: 'var(--color-text-muted)' }}>
+      <div className="flex items-center justify-center h-full text-text-muted">
         <div className="text-center">
-          <div className="text-lg font-medium mb-1" style={{ color: 'var(--color-text-secondary)' }}>
+          <div className="text-lg font-medium mb-1 text-text-secondary">
             尚無任務
           </div>
           <p className="text-sm">在看板中新增任務後，這裡會顯示時間軸</p>
@@ -183,11 +181,8 @@ function TimelineView() {
   return (
     <div className="flex flex-col h-full">
       {/* 工具列 */}
-      <div
-        className="flex items-center gap-3 px-4 py-3 border-b"
-        style={{ borderColor: 'var(--color-border)' }}
-      >
-        <span className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-border">
+        <span className="text-sm text-text-secondary">
           時間刻度：
         </span>
         <div className="flex gap-1">
@@ -195,19 +190,18 @@ function TimelineView() {
             <button
               key={opt.minutes}
               onClick={() => setScaleIndex(idx)}
-              className="px-2.5 py-1 rounded text-xs font-medium transition-colors"
-              style={{
-                backgroundColor: scaleIndex === idx ? 'var(--color-primary)' : 'transparent',
-                color: scaleIndex === idx ? '#fff' : 'var(--color-text-secondary)',
-                border: `1px solid ${scaleIndex === idx ? 'var(--color-primary)' : 'var(--color-border)'}`,
-              }}
+              className={`px-2.5 py-1 rounded text-xs font-medium transition-colors border ${
+                scaleIndex === idx
+                  ? 'bg-accent text-white border-accent'
+                  : 'bg-transparent text-text-secondary border-border hover:border-gray-500'
+              }`}
             >
               {opt.label}
             </button>
           ))}
         </div>
         <div className="flex-1" />
-        <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+        <span className="text-xs text-text-muted">
           共 {tasks.length} 個任務
         </span>
       </div>
@@ -216,40 +210,28 @@ function TimelineView() {
       <div className="flex-1 flex overflow-hidden">
         {/* 左側：任務名稱 */}
         <div
-          className="flex-shrink-0 border-r overflow-y-auto"
-          style={{
-            width: LABEL_WIDTH,
-            borderColor: 'var(--color-border)',
-            backgroundColor: 'rgba(20, 29, 47, 0.6)',
-          }}
+          className="flex-shrink-0 border-r border-border overflow-y-auto bg-surface"
+          style={{ width: LABEL_WIDTH }}
         >
           {/* 標頭佔位 */}
           <div
-            className="border-b px-3 flex items-center text-xs font-medium"
-            style={{
-              height: 48,
-              borderColor: 'var(--color-border)',
-              color: 'var(--color-text-secondary)',
-            }}
+            className="border-b border-border px-3 flex items-center text-xs font-medium text-text-secondary"
+            style={{ height: 48 }}
           >
             任務
           </div>
           {sortedTasks.map((task) => (
             <div
               key={task.id}
-              className="flex items-center gap-2 px-3 border-b"
-              style={{
-                height: ROW_HEIGHT,
-                borderColor: 'var(--color-border)',
-              }}
+              className="flex items-center gap-2 px-3 border-b border-border"
+              style={{ height: ROW_HEIGHT }}
             >
               <span
                 className="inline-block w-2 h-2 rounded-full flex-shrink-0"
                 style={{ backgroundColor: STATUS_COLOR_MAP[task.status] }}
               />
               <span
-                className="text-xs truncate"
-                style={{ color: 'var(--color-text)' }}
+                className="text-xs truncate text-text"
                 title={task.title}
               >
                 {task.title}
@@ -263,26 +245,19 @@ function TimelineView() {
           <div style={{ minWidth: totalWidth }}>
             {/* 時間標頭 */}
             <div
-              className="flex border-b sticky top-0 z-10"
-              style={{
-                height: 48,
-                borderColor: 'var(--color-border)',
-                backgroundColor: 'var(--color-bg)',
-              }}
+              className="flex border-b border-border sticky top-0 z-10 bg-bg"
+              style={{ height: 48 }}
             >
               {gridLabels.map((g, idx) => (
                 <div
                   key={idx}
-                  className="flex-shrink-0 flex flex-col items-center justify-center border-r"
-                  style={{
-                    width: CELL_WIDTH,
-                    borderColor: 'var(--color-border)',
-                  }}
+                  className="flex-shrink-0 flex flex-col items-center justify-center border-r border-border"
+                  style={{ width: CELL_WIDTH }}
                 >
-                  <span className="text-[10px]" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>
+                  <span className="text-[10px] text-text-muted font-['Fira_Code']">
                     {g.dateLabel}
                   </span>
-                  <span className="text-xs" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-mono)' }}>
+                  <span className="text-xs text-text-secondary font-['Fira_Code']">
                     {g.label}
                   </span>
                 </div>
@@ -295,11 +270,10 @@ function TimelineView() {
               {gridLabels.map((_, idx) => (
                 <div
                   key={idx}
-                  className="absolute top-0 bottom-0 border-r"
+                  className="absolute top-0 bottom-0 border-r border-border/30"
                   style={{
                     left: idx * CELL_WIDTH,
                     width: CELL_WIDTH,
-                    borderColor: 'rgba(30, 45, 69, 0.3)',
                   }}
                 />
               ))}
@@ -317,11 +291,8 @@ function TimelineView() {
                 return (
                   <div
                     key={task.id}
-                    className="relative border-b"
-                    style={{
-                      height: ROW_HEIGHT,
-                      borderColor: 'rgba(30, 45, 69, 0.3)',
-                    }}
+                    className="relative border-b border-border/30"
+                    style={{ height: ROW_HEIGHT }}
                   >
                     <div
                       className="absolute rounded cursor-pointer transition-opacity hover:opacity-80"
@@ -348,10 +319,7 @@ function TimelineView() {
                       )}
                       {/* 色條內標題（夠寬才顯示） */}
                       {barWidth > 60 && (
-                        <span
-                          className="absolute inset-0 flex items-center px-2 text-[10px] font-medium truncate"
-                          style={{ color: '#fff' }}
-                        >
+                        <span className="absolute inset-0 flex items-center px-2 text-[10px] font-medium truncate text-white">
                           {task.title}
                         </span>
                       )}
@@ -369,28 +337,26 @@ function TimelineView() {
       {/* Tooltip */}
       {tooltip && (
         <div
-          className="fixed z-50 rounded-lg px-3 py-2 shadow-xl pointer-events-none"
+          className="fixed z-50 rounded-lg px-3 py-2 pointer-events-none bg-surface border border-border"
           style={{
             left: tooltip.x,
             top: tooltip.y,
             transform: 'translate(-50%, -100%)',
-            backgroundColor: 'var(--color-card)',
-            border: '1px solid var(--color-border)',
           }}
         >
-          <div className="text-xs font-medium mb-1" style={{ color: 'var(--color-text)' }}>
+          <div className="text-xs font-medium mb-1 text-text">
             {tooltip.task.title}
           </div>
-          <div className="flex items-center gap-2 text-[10px]" style={{ color: 'var(--color-text-secondary)' }}>
+          <div className="flex items-center gap-2 text-[10px] text-text-secondary">
             <span
               className="inline-block w-1.5 h-1.5 rounded-full"
               style={{ backgroundColor: STATUS_COLOR_MAP[tooltip.task.status] }}
             />
             <span>{STATUS_LABEL_MAP[tooltip.task.status]}</span>
             <span>|</span>
-            <span style={{ fontFamily: 'var(--font-mono)' }}>進度 {tooltip.task.progress}%</span>
+            <span className="font-['Fira_Code']">進度 {tooltip.task.progress}%</span>
           </div>
-          <div className="text-[10px] mt-0.5" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>
+          <div className="text-[10px] mt-0.5 text-text-muted font-['Fira_Code']">
             {formatTime(new Date(tooltip.task.createdAt))}
             {' → '}
             {tooltip.task.completedAt
@@ -398,7 +364,7 @@ function TimelineView() {
               : '進行中'}
           </div>
           {tooltip.task.assigneeAgentId && (
-            <div className="text-[10px] mt-0.5" style={{ color: 'var(--color-text-muted)' }}>
+            <div className="text-[10px] mt-0.5 text-text-muted">
               Agent: {agentMap.get(tooltip.task.assigneeAgentId) ?? tooltip.task.assigneeAgentId}
             </div>
           )}
