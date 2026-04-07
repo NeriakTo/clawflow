@@ -43,12 +43,14 @@ function parseStats(raw: Record<string, unknown>): DashboardStats {
 }
 
 function parseEvent(raw: Record<string, unknown>): DashboardEvent {
+  const event = (raw['event'] ?? raw['event_type'] ?? '') as string;
+  const message = (raw['message'] ?? event) as string;
   return {
     id: raw['id'] as string,
-    event: raw['event'] as string,
-    message: raw['message'] as string,
+    event,
+    message,
     timestamp: raw['timestamp'] as string,
-    source: raw['source'] as string,
+    source: (raw['source'] ?? '') as string,
   };
 }
 

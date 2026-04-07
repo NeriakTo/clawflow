@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../web";
 
 :root {
   --color-bg: #0f172a;
