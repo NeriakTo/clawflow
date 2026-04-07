@@ -1,0 +1,13 @@
+services:
+  clawflow:
+    build: .
+    ports:
+      - "3700:3700"
+    volumes:
+      - clawflow-data:/home/node/.clawflow
+    environment:
+      - CLAWFLOW_PORT=3700
+    restart: unless-stopped
+
+volumes:
+  clawflow-data:

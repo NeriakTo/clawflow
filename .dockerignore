@@ -1,0 +1,11 @@
+node_modules
+dist
+.git
+*.md
+tests
+.eslintrc.json
+.prettierrc
+coverage
+.dockerignore
+Dockerfile
+docker-compose.yml

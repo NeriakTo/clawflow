@@ -1,0 +1,32 @@
+# 依賴
+node_modules/
+
+# 建置輸出
+dist/
+
+# 資料庫
+*.db
+*.db-journal
+*.db-wal
+
+# 環境變數
+.env
+.env.local
+.env.*.local
+
+# 編輯器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 系統檔案
+.DS_Store
+Thumbs.db
+
+# 測試覆蓋率
+coverage/
+
+# 暫存
+*.tsbuildinfo

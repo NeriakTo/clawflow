@@ -1,0 +1,34 @@
+# 原始碼（僅發布 dist/）
+src/
+tests/
+__tests__/
+
+# 設定檔
+tsconfig*.json
+tsup.config.*
+vite.config.*
+vitest.config.*
+eslint.config.*
+.prettierrc*
+tailwind.config.*
+
+# 開發工具
+.github/
+.vscode/
+.idea/
+.claude/
+docs/
+
+# 測試與覆蓋率
+coverage/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# 雜項
+.env*
+.gitignore
+.npmignore
+node_modules/
+*.log

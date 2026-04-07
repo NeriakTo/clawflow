@@ -1,0 +1,267 @@
+/**
+ * BoardView — 看板視圖（Kanban）
+ */
+import { useState, useEffect, useCallback, type DragEvent } from 'react';
+import type { Task, TaskStatus, TaskPriority } from '../types';
+import { useTaskStore } from '../stores/task.store';
+import { useAgentStore } from '../stores/agent.store';
+import TaskCard from '../components/TaskCard';
+import TaskModal from '../components/TaskModal';
+import CreateTaskModal from '../components/CreateTaskModal';
+
+/** 看板欄位定義 */
+const BOARD_COLUMNS: readonly { readonly status: TaskStatus; readonly label: string; readonly color: string }[] = [
+  { status: 'backlog', label: '待辦列', color: '#64748b' },
+  { status: 'todo', label: '待處理', color: '#3b82f6' },
+  { status: 'in_progress', label: '進行中', color: '#22c55e' },
+  { status: 'review', label: '審查中', color: '#f59e0b' },
+  { status: 'done', label: '已完成', color: '#10b981' },
+];
+
+const PRIORITY_OPTIONS: readonly TaskPriority[] = ['critical', 'high', 'medium', 'low'];
+
+function BoardView() {
+  const tasks = useTaskStore((s) => s.tasks);
+  const loading = useTaskStore((s) => s.loading);
+  const error = useTaskStore((s) => s.error);
+  const filters = useTaskStore((s) => s.filters);
+  const fetchTasks = useTaskStore((s) => s.fetchTasks);
+  const setFilters = useTaskStore((s) => s.setFilters);
+  const updateTask = useTaskStore((s) => s.updateTask);
+  const agents = useAgentStore((s) => s.agents);
+
+  const [search, setSearch] = useState('');
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [dragOverColumn, setDragOverColumn] = useState<TaskStatus | null>(null);
+
+  useEffect(() => {
+    void fetchTasks();
+  }, [fetchTasks]);
+
+  /** 篩選後的任務 */
+  const filteredTasks = tasks.filter((t) => {
+    if (search) {
+      const q = search.toLowerCase();
+      const matchTitle = t.title.toLowerCase().includes(q);
+      const matchTag = t.tags.some((tag) => tag.toLowerCase().includes(q));
+      if (!matchTitle && !matchTag) return false;
+    }
+    if (filters.priority && t.priority !== filters.priority) return false;
+    if (filters.assignee && t.assigneeAgentId !== filters.assignee) return false;
+    if (filters.tag && !t.tags.includes(filters.tag)) return false;
+    return true;
+  });
+
+  /** 取得某欄的任務 */
+  const getColumnTasks = useCallback(
+    (status: TaskStatus): readonly Task[] =>
+      filteredTasks.filter((t) => t.status === status),
+    [filteredTasks],
+  );
+
+  /** 拖拉相關 handler */
+  function handleDragOver(e: DragEvent<HTMLDivElement>, status: TaskStatus) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverColumn(status);
+  }
+
+  function handleDragLeave() {
+    setDragOverColumn(null);
+  }
+
+  async function handleDrop(e: DragEvent<HTMLDivElement>, targetStatus: TaskStatus) {
+    e.preventDefault();
+    setDragOverColumn(null);
+    const taskId = e.dataTransfer.getData('text/plain');
+    if (!taskId) return;
+
+    const task = tasks.find((t) => t.id === taskId);
+    if (!task || task.status === targetStatus) return;
+
+    await updateTask(taskId, {
+      title: undefined,
+      description: undefined,
+      status: targetStatus,
+      priority: undefined,
+      assigneeAgentId: undefined,
+      tags: undefined,
+      progress: undefined,
+      completedAt: undefined,
+    });
+  }
+
+  /** 收集所有不重複的 tags */
+  const allTags = [...new Set(tasks.flatMap((t) => [...t.tags]))];
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* 頂部工具列 */}
+      <div className="flex items-center gap-3 px-4 py-3 border-b"
+           style={{ borderColor: 'var(--color-border)' }}>
+        {/* 搜尋 */}
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="搜尋任務..."
+          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none focus:ring-2 w-64"
+          style={{
+            backgroundColor: 'var(--color-card)',
+            border: '1px solid var(--color-border)',
+            color: 'var(--color-text)',
+            '--tw-ring-color': 'var(--color-primary)',
+          } as React.CSSProperties}
+        />
+
+        {/* 優先級篩選 */}
+        <select
+          value={filters.priority ?? ''}
+          onChange={(e) => { const v = e.target.value; setFilters({ ...filters, priority: v ? v as TaskPriority : undefined }); }}
+          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none"
+          style={{
+            backgroundColor: 'var(--color-card)',
+            border: '1px solid var(--color-border)',
+            color: 'var(--color-text)',
+          }}
+        >
+          <option value="">所有優先級</option>
+          {PRIORITY_OPTIONS.map((p) => (
+            <option key={p} value={p}>{p}</option>
+          ))}
+        </select>
+
+        {/* Agent 篩選 */}
+        <select
+          value={filters.assignee ?? ''}
+          onChange={(e) => { const v = e.target.value; setFilters({ ...filters, assignee: v || undefined }); }}
+          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none"
+          style={{
+            backgroundColor: 'var(--color-card)',
+            border: '1px solid var(--color-border)',
+            color: 'var(--color-text)',
+          }}
+        >
+          <option value="">所有 Agent</option>
+          {agents.map((a) => (
+            <option key={a.id} value={a.id}>{a.name}</option>
+          ))}
+        </select>
+
+        {/* Tag 篩選 */}
+        <select
+          value={filters.tag ?? ''}
+          onChange={(e) => { const v = e.target.value; setFilters({ ...filters, tag: v || undefined }); }}
+          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none"
+          style={{
+            backgroundColor: 'var(--color-card)',
+            border: '1px solid var(--color-border)',
+            color: 'var(--color-text)',
+          }}
+        >
+          <option value="">所有標籤</option>
+          {allTags.map((tag) => (
+            <option key={tag} value={tag}>{tag}</option>
+          ))}
+        </select>
+
+        <div className="flex-1" />
+
+        {/* 新增任務按鈕 */}
+        <button
+          onClick={() => setShowCreateModal(true)}
+          className="px-4 py-1.5 rounded-lg text-sm font-medium text-white"
+          style={{ backgroundColor: 'var(--color-primary)' }}
+        >
+          + 新增任務
+        </button>
+      </div>
+
+      {/* 錯誤訊息 */}
+      {error && (
+        <div className="mx-4 mt-2 px-3 py-2 rounded text-sm"
+             style={{ backgroundColor: '#450a0a', color: 'var(--color-danger)', border: '1px solid var(--color-danger)' }}>
+          {error}
+        </div>
+      )}
+
+      {/* 載入中 */}
+      {loading && (
+        <div className="flex items-center justify-center py-12"
+             style={{ color: 'var(--color-text-muted)' }}>
+          載入中...
+        </div>
+      )}
+
+      {/* 看板欄位 */}
+      <div className="flex-1 flex gap-4 p-4 overflow-x-auto">
+        {BOARD_COLUMNS.map((col) => {
+          const columnTasks = getColumnTasks(col.status);
+          const isDragOver = dragOverColumn === col.status;
+
+          return (
+            <div
+              key={col.status}
+              className="flex flex-col min-w-[280px] max-w-[320px] flex-1 rounded-xl"
+              style={{
+                backgroundColor: isDragOver ? 'rgba(59, 130, 246, 0.08)' : 'rgba(30, 41, 59, 0.4)',
+                border: `1px solid ${isDragOver ? 'var(--color-primary)' : 'var(--color-border)'}`,
+                transition: 'border-color 0.15s, background-color 0.15s',
+              }}
+              onDragOver={(e) => handleDragOver(e, col.status)}
+              onDragLeave={handleDragLeave}
+              onDrop={(e) => handleDrop(e, col.status)}
+            >
+              {/* 欄位標頭 */}
+              <div className="flex items-center justify-between px-3 py-2 border-b"
+                   style={{ borderColor: 'var(--color-border)' }}>
+                <div className="flex items-center gap-2">
+                  <span
+                    className="inline-block w-2.5 h-2.5 rounded-full"
+                    style={{ backgroundColor: col.color }}
+                  />
+                  <span className="text-sm font-medium" style={{ color: 'var(--color-text)' }}>
+                    {col.label}
+                  </span>
+                </div>
+                <span
+                  className="text-xs px-1.5 py-0.5 rounded-full"
+                  style={{ backgroundColor: 'var(--color-border)', color: 'var(--color-text-muted)' }}
+                >
+                  {columnTasks.length}
+                </span>
+              </div>
+
+              {/* 卡片列表 */}
+              <div className="flex-1 flex flex-col gap-2 p-2 overflow-y-auto">
+                {columnTasks.map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    task={task}
+                    onOpen={setSelectedTask}
+                  />
+                ))}
+                {columnTasks.length === 0 && !loading && (
+                  <div className="text-center py-6 text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                    尚無任務
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Modals */}
+      {selectedTask && (
+        <TaskModal task={selectedTask} onClose={() => setSelectedTask(null)} />
+      )}
+      {showCreateModal && (
+        <CreateTaskModal onClose={() => setShowCreateModal(false)} />
+      )}
+    </div>
+  );
+}
+
+export default BoardView;
