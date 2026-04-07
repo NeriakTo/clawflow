@@ -22,25 +22,33 @@ function Navbar({ currentView, onNavigate }: NavbarProps) {
 
   return (
     <nav className="flex items-center justify-between px-6 py-3 border-b"
-         style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}>
+         style={{
+           backgroundColor: 'var(--color-card)',
+           borderColor: 'var(--color-border)',
+           boxShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
+         }}>
       <div className="flex items-center gap-6">
-        <span className="text-lg font-bold" style={{ color: 'var(--color-primary)' }}>
+        <span className="text-lg font-bold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-mono)' }}>
           clawflow
         </span>
         <div className="flex gap-1">
-          {NAV_ITEMS.map((item) => (
-            <button
-              key={item.route}
-              onClick={() => onNavigate(item.route)}
-              className="px-3 py-1.5 rounded text-sm font-medium transition-colors"
-              style={{
-                backgroundColor: currentView === item.route ? 'var(--color-primary)' : 'transparent',
-                color: currentView === item.route ? '#fff' : 'var(--color-text-secondary)',
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const isActive = currentView === item.route;
+            return (
+              <button
+                key={item.route}
+                onClick={() => onNavigate(item.route)}
+                className="px-3 py-1.5 rounded text-sm font-medium transition-colors"
+                style={{
+                  backgroundColor: isActive ? 'rgba(79, 143, 247, 0.12)' : 'transparent',
+                  color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+                  borderLeft: isActive ? '3px solid var(--color-primary)' : '3px solid transparent',
+                }}
+              >
+                {item.label}
+              </button>
+            );
+          })}
         </div>
       </div>
       <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--color-text-muted)' }}>

@@ -2,8 +2,16 @@
  * TaskCard — 看板任務卡片
  */
 import { useState, type DragEvent } from 'react';
-import type { Task } from '../types';
+import type { Task, TaskPriority } from '../types';
 import PriorityBadge from './PriorityBadge';
+
+/** 優先級對應左邊框顏色 */
+const PRIORITY_BORDER_COLOR: Record<TaskPriority, string> = {
+  critical: 'var(--color-danger)',
+  high: 'var(--color-warning)',
+  medium: 'var(--color-primary)',
+  low: 'var(--color-text-muted)',
+};
 
 interface TaskCardProps {
   readonly task: Task;
@@ -33,6 +41,7 @@ function TaskCard({ task, onOpen }: TaskCardProps) {
       style={{
         backgroundColor: 'var(--color-card)',
         border: '1px solid var(--color-border)',
+        borderLeft: `3px solid ${PRIORITY_BORDER_COLOR[task.priority]}`,
         opacity: isDragging ? 0.5 : 1,
       }}
     >
@@ -46,14 +55,22 @@ function TaskCard({ task, onOpen }: TaskCardProps) {
 
       {/* Progress bar */}
       {task.progress > 0 && (
-        <div className="w-full h-1.5 rounded-full mb-2" style={{ backgroundColor: 'var(--color-border)' }}>
-          <div
-            className="h-full rounded-full transition-all"
-            style={{
-              width: `${task.progress}%`,
-              backgroundColor: task.progress === 100 ? 'var(--color-success)' : 'var(--color-primary)',
-            }}
-          />
+        <div className="flex items-center gap-2 mb-2">
+          <div className="flex-1 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-border)' }}>
+            <div
+              className="h-full rounded-full transition-all"
+              style={{
+                width: `${task.progress}%`,
+                backgroundColor: task.progress === 100 ? 'var(--color-success)' : 'var(--color-primary)',
+              }}
+            />
+          </div>
+          <span
+            className="text-[10px] flex-shrink-0"
+            style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}
+          >
+            {task.progress}%
+          </span>
         </div>
       )}
 
@@ -71,7 +88,7 @@ function TaskCard({ task, onOpen }: TaskCardProps) {
             <span
               key={tag}
               className="px-1.5 py-0.5 rounded"
-              style={{ backgroundColor: '#1e3a5f', color: '#60a5fa' }}
+              style={{ backgroundColor: '#152040', color: '#4f8ff7' }}
             >
               {tag}
             </span>

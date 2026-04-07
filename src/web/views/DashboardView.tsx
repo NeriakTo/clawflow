@@ -9,21 +9,21 @@ import type { TaskStatus } from '../types';
 
 /** 狀態對應顏色 */
 const STATUS_COLOR_MAP: Record<TaskStatus, string> = {
-  backlog: '#64748b',
-  todo: '#64748b',
-  in_progress: '#3b82f6',
-  review: '#f59e0b',
-  done: '#22c55e',
-  archived: '#475569',
+  backlog: '#4a5f82',
+  todo: '#4a5f82',
+  in_progress: '#4f8ff7',
+  review: '#fbbf24',
+  done: '#34d399',
+  archived: '#3a4a66',
 };
 
 /** 事件類型對應顏色 */
 function eventColor(event: string): string {
-  if (event.includes('completed') || event.includes('done')) return '#22c55e';
-  if (event.includes('failed') || event.includes('error')) return '#ef4444';
-  if (event.includes('started') || event.includes('in_progress')) return '#3b82f6';
-  if (event.includes('created') || event.includes('registered')) return '#f59e0b';
-  return '#64748b';
+  if (event.includes('completed') || event.includes('done')) return '#34d399';
+  if (event.includes('failed') || event.includes('error')) return '#f87171';
+  if (event.includes('started') || event.includes('in_progress')) return '#4f8ff7';
+  if (event.includes('created') || event.includes('registered')) return '#fbbf24';
+  return '#4a5f82';
 }
 
 /** SVG 環形圖元件 */
@@ -70,6 +70,7 @@ function DonutChart({ completed, total }: { readonly completed: number; readonly
         fill="var(--color-text)"
         fontSize="24"
         fontWeight="bold"
+        fontFamily="var(--font-mono)"
       >
         {percentage}%
       </text>
@@ -98,7 +99,7 @@ function StatCard({
       <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
         {label}
       </span>
-      <span className="text-2xl font-bold" style={{ color }}>
+      <span className="text-2xl font-bold" style={{ color, fontFamily: 'var(--font-mono)' }}>
         {value}
       </span>
     </div>
@@ -188,7 +189,7 @@ function DashboardView() {
               border: '1px solid var(--color-border)',
             }}
           >
-            <h3 className="text-sm font-medium mb-4" style={{ color: 'var(--color-text)' }}>
+            <h3 className="font-semibold mb-4" style={{ color: 'var(--color-text-secondary)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>
               完成率
             </h3>
             <div className="flex items-center justify-center">
@@ -208,7 +209,7 @@ function DashboardView() {
               border: '1px solid var(--color-border)',
             }}
           >
-            <h3 className="text-sm font-medium mb-4" style={{ color: 'var(--color-text)' }}>
+            <h3 className="font-semibold mb-4" style={{ color: 'var(--color-text-secondary)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>
               Agent 負載分配
             </h3>
             {agentLoad.length === 0 ? (
@@ -246,7 +247,7 @@ function DashboardView() {
               border: '1px solid var(--color-border)',
             }}
           >
-            <h3 className="text-sm font-medium mb-4" style={{ color: 'var(--color-text)' }}>
+            <h3 className="font-semibold mb-4" style={{ color: 'var(--color-text-secondary)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>
               最近事件
             </h3>
             {events.length === 0 ? (
@@ -257,7 +258,7 @@ function DashboardView() {
               <div className="flex flex-col gap-0 max-h-[400px] overflow-y-auto">
                 {events.map((evt) => (
                   <div key={evt.id} className="flex items-start gap-3 py-2 border-b last:border-b-0"
-                       style={{ borderColor: 'rgba(51, 65, 85, 0.3)' }}>
+                       style={{ borderColor: 'rgba(30, 45, 69, 0.3)' }}>
                     {/* 時間線圓點 */}
                     <div className="flex flex-col items-center pt-1">
                       <span
@@ -289,7 +290,7 @@ function DashboardView() {
             border: '1px solid var(--color-border)',
           }}
         >
-          <h3 className="text-sm font-medium mb-3" style={{ color: 'var(--color-text)' }}>
+          <h3 className="font-semibold mb-3" style={{ color: 'var(--color-text-secondary)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>
             任務狀態分布
           </h3>
           <div className="flex gap-2 h-4 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--color-border)' }}>

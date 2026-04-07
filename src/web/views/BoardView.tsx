@@ -11,11 +11,11 @@ import CreateTaskModal from '../components/CreateTaskModal';
 
 /** 看板欄位定義 */
 const BOARD_COLUMNS: readonly { readonly status: TaskStatus; readonly label: string; readonly color: string }[] = [
-  { status: 'backlog', label: '待辦列', color: '#64748b' },
-  { status: 'todo', label: '待處理', color: '#3b82f6' },
-  { status: 'in_progress', label: '進行中', color: '#22c55e' },
-  { status: 'review', label: '審查中', color: '#f59e0b' },
-  { status: 'done', label: '已完成', color: '#10b981' },
+  { status: 'backlog', label: '待辦列', color: '#4a5f82' },
+  { status: 'todo', label: '待處理', color: '#4f8ff7' },
+  { status: 'in_progress', label: '進行中', color: '#34d399' },
+  { status: 'review', label: '審查中', color: '#fbbf24' },
+  { status: 'done', label: '已完成', color: '#34d399' },
 ];
 
 const PRIORITY_OPTIONS: readonly TaskPriority[] = ['critical', 'high', 'medium', 'low'];
@@ -195,7 +195,7 @@ function BoardView() {
       )}
 
       {/* 看板欄位 */}
-      <div className="flex-1 flex gap-4 p-4 overflow-x-auto">
+      <div className="flex-1 flex gap-3 p-4 overflow-x-auto">
         {BOARD_COLUMNS.map((col) => {
           const columnTasks = getColumnTasks(col.status);
           const isDragOver = dragOverColumn === col.status;
@@ -205,7 +205,7 @@ function BoardView() {
               key={col.status}
               className="flex flex-col min-w-[280px] max-w-[320px] flex-1 rounded-xl"
               style={{
-                backgroundColor: isDragOver ? 'rgba(59, 130, 246, 0.08)' : 'rgba(30, 41, 59, 0.4)',
+                backgroundColor: isDragOver ? 'rgba(79, 143, 247, 0.08)' : 'rgba(20, 29, 47, 0.5)',
                 border: `1px solid ${isDragOver ? 'var(--color-primary)' : 'var(--color-border)'}`,
                 transition: 'border-color 0.15s, background-color 0.15s',
               }}
@@ -214,20 +214,34 @@ function BoardView() {
               onDrop={(e) => handleDrop(e, col.status)}
             >
               {/* 欄位標頭 */}
-              <div className="flex items-center justify-between px-3 py-2 border-b"
+              <div className="flex items-center justify-between px-3 py-2.5 border-b"
                    style={{ borderColor: 'var(--color-border)' }}>
                 <div className="flex items-center gap-2">
                   <span
-                    className="inline-block w-2.5 h-2.5 rounded-full"
+                    className="inline-block w-2 h-2 rounded-full"
                     style={{ backgroundColor: col.color }}
                   />
-                  <span className="text-sm font-medium" style={{ color: 'var(--color-text)' }}>
+                  <span
+                    className="font-semibold"
+                    style={{
+                      color: 'var(--color-text-secondary)',
+                      fontSize: '10px',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase' as const,
+                    }}
+                  >
                     {col.label}
                   </span>
                 </div>
                 <span
-                  className="text-xs px-1.5 py-0.5 rounded-full"
-                  style={{ backgroundColor: 'var(--color-border)', color: 'var(--color-text-muted)' }}
+                  className="px-1.5 rounded-full"
+                  style={{
+                    backgroundColor: 'rgba(30, 45, 69, 0.6)',
+                    color: 'var(--color-text-muted)',
+                    fontSize: '10px',
+                    fontFamily: 'var(--font-mono)',
+                    lineHeight: '18px',
+                  }}
                 >
                   {columnTasks.length}
                 </span>

@@ -30,3 +30,4 @@ coverage/
 
 # 暫存
 *.tsbuildinfo
+.gstack/

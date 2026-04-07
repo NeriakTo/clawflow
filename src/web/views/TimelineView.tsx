@@ -8,12 +8,12 @@ import { useAgentStore } from '../stores/agent.store';
 
 /** 狀態對應顏色 */
 const STATUS_COLOR_MAP: Record<TaskStatus, string> = {
-  backlog: '#64748b',
-  todo: '#64748b',
-  in_progress: '#3b82f6',
-  review: '#f59e0b',
-  done: '#22c55e',
-  archived: '#475569',
+  backlog: '#4a5f82',
+  todo: '#4a5f82',
+  in_progress: '#4f8ff7',
+  review: '#fbbf24',
+  done: '#34d399',
+  archived: '#3a4a66',
 };
 
 /** 狀態中文標籤 */
@@ -220,7 +220,7 @@ function TimelineView() {
           style={{
             width: LABEL_WIDTH,
             borderColor: 'var(--color-border)',
-            backgroundColor: 'rgba(30, 41, 59, 0.6)',
+            backgroundColor: 'rgba(20, 29, 47, 0.6)',
           }}
         >
           {/* 標頭佔位 */}
@@ -279,10 +279,10 @@ function TimelineView() {
                     borderColor: 'var(--color-border)',
                   }}
                 >
-                  <span className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
+                  <span className="text-[10px]" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>
                     {g.dateLabel}
                   </span>
-                  <span className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+                  <span className="text-xs" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-mono)' }}>
                     {g.label}
                   </span>
                 </div>
@@ -299,7 +299,7 @@ function TimelineView() {
                   style={{
                     left: idx * CELL_WIDTH,
                     width: CELL_WIDTH,
-                    borderColor: 'rgba(51, 65, 85, 0.3)',
+                    borderColor: 'rgba(30, 45, 69, 0.3)',
                   }}
                 />
               ))}
@@ -320,7 +320,7 @@ function TimelineView() {
                     className="relative border-b"
                     style={{
                       height: ROW_HEIGHT,
-                      borderColor: 'rgba(51, 65, 85, 0.3)',
+                      borderColor: 'rgba(30, 45, 69, 0.3)',
                     }}
                   >
                     <div
@@ -388,9 +388,9 @@ function TimelineView() {
             />
             <span>{STATUS_LABEL_MAP[tooltip.task.status]}</span>
             <span>|</span>
-            <span>進度 {tooltip.task.progress}%</span>
+            <span style={{ fontFamily: 'var(--font-mono)' }}>進度 {tooltip.task.progress}%</span>
           </div>
-          <div className="text-[10px] mt-0.5" style={{ color: 'var(--color-text-muted)' }}>
+          <div className="text-[10px] mt-0.5" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>
             {formatTime(new Date(tooltip.task.createdAt))}
             {' → '}
             {tooltip.task.completedAt
