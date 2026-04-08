@@ -44,7 +44,7 @@ function DonutChart({ completed, total }: { readonly completed: number; readonly
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke="rgba(255,255,255,0.05)"
+        stroke="#24242b"
         strokeWidth={strokeWidth}
       />
       {/* 進度環 */}
@@ -92,8 +92,8 @@ function StatCard({
     <div
       className="rounded-xl p-4 flex flex-col gap-1"
       style={{
-        backgroundColor: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(255,255,255,0.08)',
+        backgroundColor: '#1a1a1f',
+        border: '1px solid #2e2e38',
       }}
     >
       <span className="text-xs text-text-muted">
@@ -171,8 +171,8 @@ function DashboardView() {
 
   /** 共用的面板樣式 */
   const panelStyle = {
-    backgroundColor: 'rgba(255,255,255,0.03)',
-    border: '1px solid rgba(255,255,255,0.08)',
+    backgroundColor: '#1a1a1f',
+    border: '1px solid #2e2e38',
   };
 
   return (
@@ -220,7 +220,7 @@ function DashboardView() {
                     </div>
                     <div
                       className="w-full h-2 rounded-full"
-                      style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+                      style={{ backgroundColor: '#24242b' }}
                     >
                       <div
                         className="h-full rounded-full transition-all bg-accent"
@@ -250,7 +250,7 @@ function DashboardView() {
                   <div
                     key={evt.id}
                     className="flex items-start gap-3 py-2 last:border-b-0"
-                    style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}
+                    style={{ borderBottom: '1px solid #1a1a1f' }}
                   >
                     {/* 時間線圓點 */}
                     <div className="flex flex-col items-center pt-1">
@@ -282,7 +282,7 @@ function DashboardView() {
           </h3>
           <div
             className="flex gap-2 h-4 rounded-full overflow-hidden"
-            style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+            style={{ backgroundColor: '#24242b' }}
           >
             {tasks.length > 0 &&
               (['backlog', 'todo', 'in_progress', 'review', 'done', 'archived'] as const).map((status) => {

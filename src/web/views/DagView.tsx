@@ -229,19 +229,19 @@ function DagView() {
         fitView
         proOptions={{ hideAttribution: true }}
       >
-        <Background color="#28282c" gap={20} />
+        <Background color="#2e2e38" gap={20} />
         <Controls
           style={{
-            backgroundColor: '#0f1011',
-            border: '1px solid rgba(255,255,255,0.08)',
+            backgroundColor: '#1a1a1f',
+            border: '1px solid #2e2e38',
             borderRadius: '0.5rem',
           }}
         />
         <MiniMap
           nodeColor={miniMapNodeColor}
           style={{
-            backgroundColor: '#0f1011',
-            border: '1px solid rgba(255,255,255,0.08)',
+            backgroundColor: '#1a1a1f',
+            border: '1px solid #2e2e38',
             borderRadius: '0.5rem',
           }}
         />

@@ -3,17 +3,17 @@
 @source "../../web";
 
 @theme {
-  /* Backgrounds - luminance stacking */
-  --color-bg: #08090a;
-  --color-surface: #0f1011;
-  --color-surface2: #191a1b;
-  --color-surface-hover: #28282c;
+  /* Backgrounds — Claw-Kanban luminance stacking */
+  --color-bg: #0e0e10;
+  --color-surface: #1a1a1f;
+  --color-surface2: #24242b;
+  --color-surface-hover: #2e2e38;
 
-  /* Text - 4 tiers */
-  --color-text: #f7f8f8;
-  --color-text-secondary: #d0d6e0;
-  --color-text-muted: #8a8f98;
-  --color-text-faint: #62666d;
+  /* Text — 4 tiers */
+  --color-text: #e4e4e7;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: #71717a;
+  --color-text-faint: #52525b;
 
   /* Brand */
   --color-accent: #5e6ad2;
@@ -24,10 +24,10 @@
   --color-warning: #eab308;
   --color-danger: #ef4444;
 
-  /* Borders - semi-transparent */
-  --color-border: rgba(255, 255, 255, 0.05);
-  --color-border-standard: rgba(255, 255, 255, 0.08);
-  --color-border-solid: #23252a;
+  /* Borders — solid, visible */
+  --color-border: #2e2e38;
+  --color-border-standard: #3e3e44;
+  --color-border-solid: #2e2e38;
 }
 
 * {
@@ -44,8 +44,8 @@ body,
 }
 
 body {
-  background-color: #08090a;
-  color: #f7f8f8;
+  background-color: #0e0e10;
+  color: #e4e4e7;
   font-family: 'Fira Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -57,11 +57,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #08090a;
+  background: #0e0e10;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #28282c;
+  background: #2e2e38;
   border-radius: 3px;
 }
 
@@ -81,8 +81,8 @@ body {
 }
 
 .modal-content {
-  background-color: #191a1b;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #24242b;
+  border: 1px solid #2e2e38;
   border-radius: 0.75rem;
   padding: 1.5rem;
   width: 90%;

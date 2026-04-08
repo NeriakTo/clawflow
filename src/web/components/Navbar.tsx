@@ -23,7 +23,7 @@ function Navbar({ currentView, onNavigate }: NavbarProps) {
   return (
     <nav
       className="flex items-center justify-between px-6 py-3 bg-surface"
-      style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+      style={{ borderBottom: '1px solid #24242b' }}
     >
       <div className="flex items-center gap-6">
         <span className="text-lg font-bold text-text font-['Fira_Code']">

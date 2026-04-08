@@ -183,7 +183,7 @@ function TimelineView() {
       {/* 工具列 */}
       <div
         className="flex items-center gap-3 px-4 py-3"
-        style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+        style={{ borderBottom: '1px solid #24242b' }}
       >
         <span className="text-sm text-text-secondary">
           時間刻度：
@@ -199,8 +199,8 @@ function TimelineView() {
                   : 'text-text-secondary hover:text-text'
               }`}
               style={scaleIndex === idx ? {} : {
-                backgroundColor: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                backgroundColor: '#1a1a1f',
+                border: '1px solid #2e2e38',
               }}
             >
               {opt.label}
@@ -220,7 +220,7 @@ function TimelineView() {
           className="flex-shrink-0 overflow-y-auto bg-surface"
           style={{
             width: LABEL_WIDTH,
-            borderRight: '1px solid rgba(255,255,255,0.05)',
+            borderRight: '1px solid #24242b',
           }}
         >
           {/* 標頭佔位 */}
@@ -228,7 +228,7 @@ function TimelineView() {
             className="px-3 flex items-center text-xs font-medium text-text-secondary"
             style={{
               height: 48,
-              borderBottom: '1px solid rgba(255,255,255,0.05)',
+              borderBottom: '1px solid #24242b',
             }}
           >
             任務
@@ -239,7 +239,7 @@ function TimelineView() {
               className="flex items-center gap-2 px-3"
               style={{
                 height: ROW_HEIGHT,
-                borderBottom: '1px solid rgba(255,255,255,0.03)',
+                borderBottom: '1px solid #1a1a1f',
               }}
             >
               <span
@@ -264,7 +264,7 @@ function TimelineView() {
               className="flex sticky top-0 z-10 bg-bg"
               style={{
                 height: 48,
-                borderBottom: '1px solid rgba(255,255,255,0.05)',
+                borderBottom: '1px solid #24242b',
               }}
             >
               {gridLabels.map((g, idx) => (
@@ -273,7 +273,7 @@ function TimelineView() {
                   className="flex-shrink-0 flex flex-col items-center justify-center"
                   style={{
                     width: CELL_WIDTH,
-                    borderRight: '1px solid rgba(255,255,255,0.03)',
+                    borderRight: '1px solid #1a1a1f',
                   }}
                 >
                   <span className="text-[10px] text-text-faint font-['Fira_Code']">
@@ -296,7 +296,7 @@ function TimelineView() {
                   style={{
                     left: idx * CELL_WIDTH,
                     width: CELL_WIDTH,
-                    borderRight: '1px solid rgba(255,255,255,0.03)',
+                    borderRight: '1px solid #1a1a1f',
                   }}
                 />
               ))}
@@ -317,7 +317,7 @@ function TimelineView() {
                     className="relative"
                     style={{
                       height: ROW_HEIGHT,
-                      borderBottom: '1px solid rgba(255,255,255,0.03)',
+                      borderBottom: '1px solid #1a1a1f',
                     }}
                   >
                     <div
@@ -368,8 +368,8 @@ function TimelineView() {
             left: tooltip.x,
             top: tooltip.y,
             transform: 'translate(-50%, -100%)',
-            backgroundColor: '#191a1b',
-            border: '1px solid rgba(255,255,255,0.08)',
+            backgroundColor: '#24242b',
+            border: '1px solid #2e2e38',
           }}
         >
           <div className="text-xs font-medium mb-1 text-text">

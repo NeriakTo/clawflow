@@ -97,8 +97,8 @@ function BoardView() {
 
   /** 共用的 input/select 樣式 */
   const inputStyle = {
-    backgroundColor: 'rgba(255,255,255,0.02)',
-    border: '1px solid rgba(255,255,255,0.08)',
+    backgroundColor: '#1a1a1f',
+    border: '1px solid #2e2e38',
   };
 
   return (
@@ -106,7 +106,7 @@ function BoardView() {
       {/* 頂部工具列 */}
       <div
         className="flex items-center gap-3 px-4 py-3"
-        style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+        style={{ borderBottom: '1px solid #24242b' }}
       >
         {/* 搜尋 */}
         <input
@@ -199,11 +199,10 @@ function BoardView() {
               key={col.status}
               className="flex flex-col min-w-[280px] w-[280px] rounded-xl transition-colors"
               style={{
-                backgroundColor: '#0f1011',
+                backgroundColor: isDragOver ? 'rgba(94,106,210,0.05)' : '#1a1a1f',
                 border: isDragOver
                   ? '1px solid #5e6ad2'
-                  : '1px solid rgba(255,255,255,0.05)',
-                ...(isDragOver ? { backgroundColor: 'rgba(94,106,210,0.05)' } : {}),
+                  : '1px solid #24242b',
               }}
               onDragOver={(e) => handleDragOver(e, col.status)}
               onDragLeave={handleDragLeave}
@@ -212,7 +211,7 @@ function BoardView() {
               {/* 欄位標頭 */}
               <div
                 className="flex items-center gap-2 px-4 py-3"
-                style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+                style={{ borderBottom: '1px solid #24242b' }}
               >
                 <span
                   className="inline-block h-3 w-3 rounded-full"
@@ -224,7 +223,7 @@ function BoardView() {
                 <span
                   className="text-xs px-1.5 py-0.5 rounded-md font-['Fira_Code']"
                   style={{
-                    backgroundColor: 'rgba(255,255,255,0.05)',
+                    backgroundColor: '#24242b',
                     color: '#8a8f98',
                   }}
                 >

@@ -43,7 +43,7 @@ function DagTaskNode({ data }: NodeProps) {
     <div
       className="rounded-lg px-3 py-2 min-w-[180px] max-w-[240px]"
       style={{
-        backgroundColor: 'rgba(255,255,255,0.03)',
+        backgroundColor: '#1a1a1f',
         border: `2px solid ${borderColor}`,
       }}
     >
@@ -69,7 +69,7 @@ function DagTaskNode({ data }: NodeProps) {
       {nodeData.progress > 0 && (
         <div
           className="w-full h-1 rounded-full mb-1.5"
-          style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+          style={{ backgroundColor: '#24242b' }}
         >
           <div
             className="h-full rounded-full transition-all"

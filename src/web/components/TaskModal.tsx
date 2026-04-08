@@ -17,8 +17,8 @@ const PRIORITY_OPTIONS: readonly TaskPriority[] = ['critical', 'high', 'medium',
 
 /** 共用的 input/select 樣式 */
 const inputStyle = {
-  backgroundColor: 'rgba(255,255,255,0.02)',
-  border: '1px solid rgba(255,255,255,0.08)',
+  backgroundColor: '#1a1a1f',
+  border: '1px solid #2e2e38',
 };
 
 function TaskModal({ task, onClose }: TaskModalProps) {
@@ -163,7 +163,7 @@ function TaskModal({ task, onClose }: TaskModalProps) {
                   <span
                     key={depId}
                     className="px-2 py-0.5 rounded text-xs text-text-secondary"
-                    style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+                    style={{ backgroundColor: '#24242b' }}
                   >
                     {depId.slice(0, 8)}...
                   </span>
@@ -179,7 +179,7 @@ function TaskModal({ task, onClose }: TaskModalProps) {
             </label>
             <div
               className="w-full h-2 rounded-full"
-              style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+              style={{ backgroundColor: '#24242b' }}
             >
               <div
                 className="h-full rounded-full"
@@ -206,8 +206,8 @@ function TaskModal({ task, onClose }: TaskModalProps) {
                 onClick={onClose}
                 className="px-4 py-1.5 rounded-md text-sm font-medium text-text"
                 style={{
-                  backgroundColor: 'rgba(255,255,255,0.02)',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  backgroundColor: '#1a1a1f',
+                  border: '1px solid #2e2e38',
                 }}
               >
                 取消

@@ -114,17 +114,17 @@ function AgentView() {
               key={agent.id}
               className="rounded-xl overflow-hidden transition-colors cursor-pointer"
               style={{
-                backgroundColor: 'rgba(255,255,255,0.03)',
+                backgroundColor: '#1a1a1f',
                 border: isExpanded
                   ? '1px solid #5e6ad2'
-                  : '1px solid rgba(255,255,255,0.08)',
+                  : '1px solid #2e2e38',
               }}
               onClick={() => toggleExpand(agent.id)}
               onMouseEnter={(e) => {
-                if (!isExpanded) (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.15)';
+                if (!isExpanded) (e.currentTarget as HTMLElement).style.borderColor = '#3e3e44';
               }}
               onMouseLeave={(e) => {
-                if (!isExpanded) (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)';
+                if (!isExpanded) (e.currentTarget as HTMLElement).style.borderColor = '#2e2e38';
               }}
             >
               {/* 卡片標頭 */}
@@ -182,7 +182,7 @@ function AgentView() {
                     {currentTask.progress > 0 && (
                       <div
                         className="w-full h-1 rounded-full mt-1.5"
-                        style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+                        style={{ backgroundColor: '#24242b' }}
                       >
                         <div
                           className="h-full rounded-full bg-accent"
@@ -200,7 +200,7 @@ function AgentView() {
                       <span
                         key={cap}
                         className="px-1.5 py-0.5 rounded text-[10px] text-text-secondary"
-                        style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+                        style={{ backgroundColor: '#24242b' }}
                       >
                         {cap}
                       </span>
@@ -213,7 +213,7 @@ function AgentView() {
               {isExpanded && (
                 <div
                   className="px-4 py-3"
-                  style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
+                  style={{ borderTop: '1px solid #24242b' }}
                 >
                   <div className="text-xs font-medium mb-2 text-text-secondary">
                     歷史任務（{agentTasks.length}）
@@ -228,7 +228,7 @@ function AgentView() {
                         <div
                           key={task.id}
                           className="flex items-center justify-between px-2 py-1.5 rounded"
-                          style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
+                          style={{ backgroundColor: '#1a1a1f' }}
                         >
                           <span className="text-xs truncate flex-1 text-text">
                             {task.title}

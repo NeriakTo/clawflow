@@ -29,15 +29,11 @@ function TaskCard({ task, onOpen }: TaskCardProps) {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onClick={() => onOpen(task)}
-      className={`rounded-lg p-3 cursor-pointer transition-colors select-none ${
+      className={`rounded-lg p-3 cursor-pointer transition-colors select-none bg-surface border border-border ${
         isDragging ? 'opacity-50' : ''
       }`}
-      style={{
-        backgroundColor: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(255,255,255,0.08)',
-      }}
-      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.15)'; }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)'; }}
+      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = '#3e3e44'; }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = ''; }}
     >
       {/* 標題列 */}
       <div className="flex items-start justify-between gap-2 mb-2">
@@ -51,8 +47,7 @@ function TaskCard({ task, onOpen }: TaskCardProps) {
       {task.progress > 0 && (
         <div className="flex items-center gap-2 mb-2">
           <div
-            className="flex-1 h-1 rounded-full"
-            style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+            className="flex-1 h-1 rounded-full bg-surface2"
           >
             <div
               className="h-full rounded-full transition-all"
@@ -73,8 +68,7 @@ function TaskCard({ task, onOpen }: TaskCardProps) {
         <div className="flex items-center gap-2">
           {task.assigneeAgentId && (
             <span
-              className="px-1.5 py-0.5 rounded text-text-secondary text-xs"
-              style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+              className="px-1.5 py-0.5 rounded text-text-secondary text-xs bg-surface2"
             >
               {task.assigneeAgentId}
             </span>

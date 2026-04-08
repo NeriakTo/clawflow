@@ -13,8 +13,8 @@ const PRIORITY_OPTIONS: readonly TaskPriority[] = ['critical', 'high', 'medium',
 
 /** 共用的 input/select 樣式 */
 const inputStyle = {
-  backgroundColor: 'rgba(255,255,255,0.02)',
-  border: '1px solid rgba(255,255,255,0.08)',
+  backgroundColor: '#1a1a1f',
+  border: '1px solid #2e2e38',
 };
 
 function CreateTaskModal({ onClose }: CreateTaskModalProps) {
@@ -136,8 +136,8 @@ function CreateTaskModal({ onClose }: CreateTaskModalProps) {
               onClick={onClose}
               className="px-4 py-1.5 rounded-md text-sm font-medium text-text"
               style={{
-                backgroundColor: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                backgroundColor: '#1a1a1f',
+                border: '1px solid #2e2e38',
               }}
             >
               取消
