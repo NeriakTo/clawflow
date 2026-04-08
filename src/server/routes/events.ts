@@ -14,7 +14,7 @@ function queryStr(val: unknown): string | undefined {
   return typeof val === 'string' && val.length > 0 ? val : undefined;
 }
 
-export const eventsRouter = Router();
+export const eventsRouter: ReturnType<typeof Router> = Router();
 
 /** GET /events — 列出事件 */
 eventsRouter.get('/', (req, res) => {

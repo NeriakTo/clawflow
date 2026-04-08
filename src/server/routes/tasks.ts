@@ -20,7 +20,7 @@ function paramStr(val: string | string[]): string {
   return Array.isArray(val) ? val[0] : val;
 }
 
-export const tasksRouter = Router();
+export const tasksRouter: ReturnType<typeof Router> = Router();
 
 /** GET /tasks — 列出任務 */
 tasksRouter.get('/', (req, res) => {

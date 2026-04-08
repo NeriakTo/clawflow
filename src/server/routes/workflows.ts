@@ -20,7 +20,7 @@ function paramStr(val: string | string[]): string {
   return Array.isArray(val) ? val[0] : val;
 }
 
-export const workflowsRouter = Router();
+export const workflowsRouter: ReturnType<typeof Router> = Router();
 
 /** GET /workflows — 列出工作流 */
 workflowsRouter.get('/', (req, res) => {

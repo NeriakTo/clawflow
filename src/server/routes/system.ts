@@ -36,7 +36,7 @@ const importSchema = z.object({
   })).optional(),
 });
 
-export const systemRouter = Router();
+export const systemRouter: ReturnType<typeof Router> = Router();
 
 /** GET /health — 健康檢查 */
 systemRouter.get('/health', (_req, res) => {

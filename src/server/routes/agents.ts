@@ -20,7 +20,7 @@ function paramStr(val: string | string[]): string {
   return Array.isArray(val) ? val[0] : val;
 }
 
-export const agentsRouter = Router();
+export const agentsRouter: ReturnType<typeof Router> = Router();
 
 /** GET /agents — 列出 agents */
 agentsRouter.get('/', (req, res) => {
