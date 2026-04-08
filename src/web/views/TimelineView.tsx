@@ -39,7 +39,7 @@ const SCALE_OPTIONS = [
 /** 每格寬度（px） */
 const CELL_WIDTH = 120;
 const ROW_HEIGHT = 44;
-const LABEL_WIDTH = 220;
+const LABEL_WIDTH = 240;
 
 interface TooltipInfo {
   readonly task: Task;
@@ -182,7 +182,7 @@ function TimelineView() {
     <div className="flex flex-col h-full">
       {/* 工具列 */}
       <div
-        className="flex items-center gap-3 px-4 py-3"
+        className="flex items-center gap-4 px-6 py-4"
         style={{ borderBottom: '1px solid #24242b' }}
       >
         <span className="text-sm text-text-secondary">

@@ -90,7 +90,7 @@ function StatCard({
 }) {
   return (
     <div
-      className="rounded-xl p-4 flex flex-col gap-1"
+      className="rounded-xl p-5 flex flex-col gap-1.5"
       style={{
         backgroundColor: '#1a1a1f',
         border: '1px solid #2e2e38',
@@ -176,20 +176,20 @@ function DashboardView() {
   };
 
   return (
-    <div className="h-full overflow-y-auto p-4">
+    <div className="h-full overflow-y-auto p-6">
       <div className="max-w-6xl mx-auto">
         {/* 統計卡片列 */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-6">
           <StatCard label="任務總數" value={displayStats.total} color="#f7f8f8" />
           <StatCard label="進行中" value={displayStats.inProgress} color="#5e6ad2" />
           <StatCard label="已完成" value={displayStats.done} color="#22c55e" />
           <StatCard label="失敗" value={displayStats.failed} color="#ef4444" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {/* 完成率環形圖 */}
-          <div className="rounded-xl p-4" style={panelStyle}>
-            <h3 className="text-sm font-medium text-text mb-4">
+          <div className="rounded-xl p-5" style={panelStyle}>
+            <h3 className="text-sm font-medium text-text mb-5">
               完成率
             </h3>
             <div className="flex items-center justify-center">
@@ -202,8 +202,8 @@ function DashboardView() {
           </div>
 
           {/* Agent 負載分配 */}
-          <div className="rounded-xl p-4" style={panelStyle}>
-            <h3 className="text-sm font-medium text-text mb-4">
+          <div className="rounded-xl p-5" style={panelStyle}>
+            <h3 className="text-sm font-medium text-text mb-5">
               Agent 負載分配
             </h3>
             {agentLoad.length === 0 ? (
@@ -236,8 +236,8 @@ function DashboardView() {
           </div>
 
           {/* 最近事件時間線 */}
-          <div className="rounded-xl p-4" style={panelStyle}>
-            <h3 className="text-sm font-medium text-text mb-4">
+          <div className="rounded-xl p-5" style={panelStyle}>
+            <h3 className="text-sm font-medium text-text mb-5">
               最近事件
             </h3>
             {events.length === 0 ? (
@@ -276,8 +276,8 @@ function DashboardView() {
         </div>
 
         {/* 任務狀態分布（底部小圖） */}
-        <div className="rounded-xl p-4 mt-4" style={panelStyle}>
-          <h3 className="text-sm font-medium text-text mb-3">
+        <div className="rounded-xl p-5 mt-5" style={panelStyle}>
+          <h3 className="text-sm font-medium text-text mb-4">
             任務狀態分布
           </h3>
           <div

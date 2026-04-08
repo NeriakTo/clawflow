@@ -29,14 +29,14 @@ function TaskCard({ task, onOpen }: TaskCardProps) {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onClick={() => onOpen(task)}
-      className={`rounded-lg p-3 cursor-pointer transition-colors select-none bg-surface border border-border ${
+      className={`rounded-lg p-4 cursor-pointer transition-colors select-none bg-surface border border-border ${
         isDragging ? 'opacity-50' : ''
       }`}
       onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = '#3e3e44'; }}
       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = ''; }}
     >
       {/* 標題列 */}
-      <div className="flex items-start justify-between gap-2 mb-2">
+      <div className="flex items-start justify-between gap-2 mb-3">
         <h4 className="text-sm font-medium leading-tight text-text">
           {task.title}
         </h4>
@@ -45,7 +45,7 @@ function TaskCard({ task, onOpen }: TaskCardProps) {
 
       {/* Progress bar */}
       {task.progress > 0 && (
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2 mb-3">
           <div
             className="flex-1 h-1 rounded-full bg-surface2"
           >
@@ -65,7 +65,7 @@ function TaskCard({ task, onOpen }: TaskCardProps) {
 
       {/* 底部資訊 */}
       <div className="flex items-center justify-between text-xs text-text-muted">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           {task.assigneeAgentId && (
             <span
               className="px-1.5 py-0.5 rounded text-text-secondary text-xs bg-surface2"
@@ -74,7 +74,7 @@ function TaskCard({ task, onOpen }: TaskCardProps) {
             </span>
           )}
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
           {task.tags.slice(0, 2).map((tag) => (
             <span
               key={tag}

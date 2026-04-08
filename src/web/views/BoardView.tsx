@@ -105,7 +105,7 @@ function BoardView() {
     <div className="flex flex-col h-full">
       {/* 頂部工具列 */}
       <div
-        className="flex items-center gap-3 px-4 py-3"
+        className="flex items-center gap-4 px-6 py-4"
         style={{ borderBottom: '1px solid #24242b' }}
       >
         {/* 搜尋 */}
@@ -162,7 +162,7 @@ function BoardView() {
         {/* 新增任務按鈕 */}
         <button
           onClick={() => setShowCreateModal(true)}
-          className="px-3 py-1.5 rounded-md text-sm font-medium text-white bg-accent hover:opacity-90 transition-opacity"
+          className="px-4 py-2 rounded-md text-sm font-medium text-white bg-accent hover:opacity-90 transition-opacity"
         >
           + 新增任務
         </button>
@@ -189,7 +189,7 @@ function BoardView() {
       )}
 
       {/* 看板欄位 */}
-      <div className="flex-1 flex gap-3 p-4 overflow-x-auto">
+      <div className="flex-1 flex gap-4 p-5 overflow-x-auto">
         {BOARD_COLUMNS.map((col) => {
           const columnTasks = getColumnTasks(col.status);
           const isDragOver = dragOverColumn === col.status;
@@ -197,7 +197,7 @@ function BoardView() {
           return (
             <div
               key={col.status}
-              className="flex flex-col min-w-[280px] w-[280px] rounded-xl transition-colors"
+              className="flex flex-col min-w-[300px] w-[300px] rounded-xl transition-colors"
               style={{
                 backgroundColor: isDragOver ? 'rgba(94,106,210,0.05)' : '#1a1a1f',
                 border: isDragOver
@@ -210,7 +210,7 @@ function BoardView() {
             >
               {/* 欄位標頭 */}
               <div
-                className="flex items-center gap-2 px-4 py-3"
+                className="flex items-center gap-2 px-4 py-4"
                 style={{ borderBottom: '1px solid #24242b' }}
               >
                 <span
@@ -232,7 +232,7 @@ function BoardView() {
               </div>
 
               {/* 卡片列表 */}
-              <div className="flex-1 overflow-y-auto p-2 space-y-2 min-h-[120px]">
+              <div className="flex-1 overflow-y-auto p-3 space-y-2.5 min-h-[120px]">
                 {columnTasks.map((task) => (
                   <TaskCard
                     key={task.id}

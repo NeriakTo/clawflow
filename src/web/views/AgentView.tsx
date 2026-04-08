@@ -79,9 +79,9 @@ function AgentView() {
   }
 
   return (
-    <div className="h-full overflow-y-auto p-4">
+    <div className="h-full overflow-y-auto p-6">
       {/* 頂部統計 */}
-      <div className="flex items-center gap-4 mb-4">
+      <div className="flex items-center gap-5 mb-5">
         <span className="text-sm font-medium text-text">
           Agent 總數：{agents.length}
         </span>
@@ -103,7 +103,7 @@ function AgentView() {
       </div>
 
       {/* Agent 卡片 Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         {agents.map((agent) => {
           const isExpanded = expandedAgentId === agent.id;
           const currentTask = getCurrentTask(agent);
@@ -128,7 +128,7 @@ function AgentView() {
               }}
             >
               {/* 卡片標頭 */}
-              <div className="p-4">
+              <div className="p-5">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2.5">
                     {/* 狀態指示燈 */}

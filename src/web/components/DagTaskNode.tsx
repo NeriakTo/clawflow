@@ -41,7 +41,7 @@ function DagTaskNode({ data }: NodeProps) {
 
   return (
     <div
-      className="rounded-lg px-3 py-2 min-w-[180px] max-w-[240px]"
+      className="rounded-lg px-4 py-3 min-w-[180px] max-w-[240px]"
       style={{
         backgroundColor: '#1a1a1f',
         border: `2px solid ${borderColor}`,
@@ -50,12 +50,12 @@ function DagTaskNode({ data }: NodeProps) {
       <Handle type="target" position={Position.Top} style={{ background: borderColor }} />
 
       {/* 標題 */}
-      <div className="text-xs font-medium mb-1.5 leading-tight text-text">
+      <div className="text-xs font-medium mb-2 leading-tight text-text">
         {nodeData.label}
       </div>
 
       {/* 狀態標籤 */}
-      <div className="flex items-center gap-1.5 mb-1.5">
+      <div className="flex items-center gap-2 mb-2">
         <span
           className="inline-block w-2 h-2 rounded-full"
           style={{ backgroundColor: borderColor }}

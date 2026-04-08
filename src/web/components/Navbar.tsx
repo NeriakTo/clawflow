@@ -22,10 +22,10 @@ function Navbar({ currentView, onNavigate }: NavbarProps) {
 
   return (
     <nav
-      className="flex items-center justify-between px-6 py-3 bg-surface"
+      className="flex items-center justify-between px-6 py-3.5 bg-surface"
       style={{ borderBottom: '1px solid #24242b' }}
     >
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-8">
         <span className="text-lg font-bold text-text font-['Fira_Code']">
           clawflow
         </span>
@@ -36,7 +36,7 @@ function Navbar({ currentView, onNavigate }: NavbarProps) {
               <button
                 key={item.route}
                 onClick={() => onNavigate(item.route)}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   isActive
                     ? 'text-accent'
                     : 'text-text-secondary hover:text-text'
