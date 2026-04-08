@@ -47,6 +47,9 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - name: 建置 native 模組
+        run: pnpm rebuild better-sqlite3
+
       - name: 執行測試（含覆蓋率）
         run: pnpm test -- --coverage
 
