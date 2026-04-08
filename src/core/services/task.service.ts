@@ -184,10 +184,8 @@ export function deleteTask(id: string): boolean {
 
   if (result) {
     eventBus.emit({
-      event: 'task.completed',
+      event: 'task.deleted',
       taskId: id,
-      action: 'deleted',
-      deleted: true,
     });
   }
 

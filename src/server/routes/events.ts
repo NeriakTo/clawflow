@@ -7,6 +7,7 @@ import { Router } from 'express';
 import { validate } from '../middleware/validate.js';
 import { SubmitEventDto, BatchSubmitEventDto } from '../dto/event.dto.js';
 import * as eventService from '../../core/services/event.service.js';
+import { parseIntParam } from '../utils/parse-params.js';
 
 /** 從 query 取得 string 值 */
 function queryStr(val: unknown): string | undefined {
@@ -18,8 +19,8 @@ export const eventsRouter = Router();
 /** GET /events — 列出事件 */
 eventsRouter.get('/', (req, res) => {
   const filters: Record<string, unknown> = {
-    limit: req.query['limit'] ? Number(req.query['limit']) : 50,
-    offset: req.query['offset'] ? Number(req.query['offset']) : 0,
+    limit: parseIntParam(req.query['limit'], 50, 0, 1000),
+    offset: parseIntParam(req.query['offset'], 0, 0, Number.MAX_SAFE_INTEGER),
   };
   const type = queryStr(req.query['type']);
   if (type) filters['type'] = type;

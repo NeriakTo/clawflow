@@ -8,6 +8,7 @@ import { validate } from '../middleware/validate.js';
 import { CreateTaskDto, UpdateTaskDto, AddDependencyDto } from '../dto/task.dto.js';
 import { notFound } from '../middleware/error-handler.js';
 import * as taskService from '../../core/services/task.service.js';
+import { parseIntParam } from '../utils/parse-params.js';
 
 /** 從 query 取得 string 值（排除陣列） */
 function queryStr(val: unknown): string | undefined {
@@ -24,8 +25,8 @@ export const tasksRouter = Router();
 /** GET /tasks — 列出任務 */
 tasksRouter.get('/', (req, res) => {
   const filters: Record<string, unknown> = {
-    limit: req.query['limit'] ? Number(req.query['limit']) : 50,
-    offset: req.query['offset'] ? Number(req.query['offset']) : 0,
+    limit: parseIntParam(req.query['limit'], 50, 0, 1000),
+    offset: parseIntParam(req.query['offset'], 0, 0, Number.MAX_SAFE_INTEGER),
   };
   const status = queryStr(req.query['status']);
   if (status) filters['status'] = status;

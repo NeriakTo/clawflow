@@ -106,17 +106,15 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
   },
 
   handleTaskEvent(event: WsEvent) {
-    const payload = event.payload;
-
     switch (event.event) {
       case 'task.created': {
-        const task = parseTask(payload);
+        const task = parseTask(event as unknown as Record<string, unknown>);
         set((state) => ({ tasks: [...state.tasks, task] }));
         break;
       }
       case 'task.updated': {
-        const taskId = payload['taskId'] as string;
-        const changes = (payload['changes'] ?? {}) as Record<string, unknown>;
+        const taskId = event['taskId'] as string;
+        const changes = (event['changes'] ?? {}) as Record<string, unknown>;
         set((state) => ({
           tasks: state.tasks.map((t): Task =>
             t.id === taskId ? { ...t, ...changes } as Task : t,
@@ -125,7 +123,7 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
         break;
       }
       case 'task.completed': {
-        const taskId = payload['taskId'] as string;
+        const taskId = event['taskId'] as string;
         set((state) => ({
           tasks: state.tasks.map((t): Task =>
             t.id === taskId ? { ...t, status: 'done' as const, progress: 100 } : t,
@@ -133,8 +131,15 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
         }));
         break;
       }
+      case 'task.deleted': {
+        const taskId = event['taskId'] as string;
+        set((state) => ({
+          tasks: state.tasks.filter((t) => t.id !== taskId),
+        }));
+        break;
+      }
       case 'task.failed': {
-        const taskId = payload['taskId'] as string;
+        const taskId = event['taskId'] as string;
         set((state) => ({
           tasks: state.tasks.map((t): Task =>
             t.id === taskId ? { ...t, status: 'backlog' as const } : t,

@@ -41,17 +41,15 @@ export const useAgentStore = create<AgentStore>((set) => ({
   },
 
   handleAgentEvent(event: WsEvent) {
-    const payload = event.payload;
-
     switch (event.event) {
       case 'agent.registered': {
-        const agent = parseAgent(payload);
+        const agent = parseAgent(event as unknown as Record<string, unknown>);
         set((state) => ({ agents: [...state.agents, agent] }));
         break;
       }
       case 'agent.started': {
-        const agentId = payload['agentId'] as string;
-        const taskId = payload['taskId'] as string;
+        const agentId = event['agentId'] as string;
+        const taskId = event['taskId'] as string;
         set((state) => ({
           agents: state.agents.map((a): Agent =>
             a.id === agentId ? { ...a, status: 'working' as const, currentTaskId: taskId } : a,
@@ -60,7 +58,7 @@ export const useAgentStore = create<AgentStore>((set) => ({
         break;
       }
       case 'agent.completed': {
-        const agentId = payload['agentId'] as string;
+        const agentId = event['agentId'] as string;
         set((state) => ({
           agents: state.agents.map((a): Agent =>
             a.id === agentId
@@ -71,7 +69,7 @@ export const useAgentStore = create<AgentStore>((set) => ({
         break;
       }
       case 'agent.error': {
-        const agentId = payload['agentId'] as string;
+        const agentId = event['agentId'] as string;
         set((state) => ({
           agents: state.agents.map((a): Agent =>
             a.id === agentId ? { ...a, status: 'error' as const } : a,

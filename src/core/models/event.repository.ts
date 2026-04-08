@@ -87,6 +87,11 @@ export function findAll(filters: EventFilters = {}): readonly Event[] {
   const limit = filters.limit ?? 100;
   const offset = filters.offset ?? 0;
 
+  // limit=0 表示只需計數，跳過資料查詢
+  if (limit === 0) {
+    return [];
+  }
+
   const sql = `SELECT * FROM events ${where} ORDER BY timestamp DESC LIMIT ? OFFSET ?`;
   params.push(limit, offset);
 

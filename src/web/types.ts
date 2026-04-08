@@ -100,9 +100,7 @@ export interface ApiResponse<T> {
 
 export interface WsEvent {
   readonly event: string;
-  readonly payload: Record<string, unknown>;
-  readonly timestamp: string;
-  readonly source: string;
+  readonly [key: string]: unknown;
 }
 
 // ============================================================

@@ -8,6 +8,7 @@ import { validate } from '../middleware/validate.js';
 import { CreateWorkflowDto, UpdateWorkflowDto } from '../dto/workflow.dto.js';
 import { notFound } from '../middleware/error-handler.js';
 import * as workflowService from '../../core/services/workflow.service.js';
+import { parseIntParam } from '../utils/parse-params.js';
 
 /** 從 query 取得 string 值 */
 function queryStr(val: unknown): string | undefined {
@@ -24,8 +25,8 @@ export const workflowsRouter = Router();
 /** GET /workflows — 列出工作流 */
 workflowsRouter.get('/', (req, res) => {
   const filters: Record<string, unknown> = {
-    limit: req.query['limit'] ? Number(req.query['limit']) : 50,
-    offset: req.query['offset'] ? Number(req.query['offset']) : 0,
+    limit: parseIntParam(req.query['limit'], 50, 0, 1000),
+    offset: parseIntParam(req.query['offset'], 0, 0, Number.MAX_SAFE_INTEGER),
   };
   const status = queryStr(req.query['status']);
   if (status) filters['status'] = status;

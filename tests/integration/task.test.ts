@@ -383,9 +383,9 @@ describe('TaskService', () => {
   });
 
   describe('deleteTask', () => {
-    it('應刪除任務並 emit task.completed 事件（帶 deleted 標記）', () => {
+    it('應刪除任務並 emit task.deleted 事件', () => {
       const listener = vi.fn();
-      eventBus.on('task.completed', listener);
+      eventBus.on('task.deleted', listener);
 
       const task = taskService.createTask({ title: '要刪除' });
       const result = taskService.deleteTask(task['id'] as string);

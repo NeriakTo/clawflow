@@ -81,6 +81,11 @@ export function findAll(filters: AgentFilters = {}): readonly Agent[] {
   const limit = filters.limit ?? 100;
   const offset = filters.offset ?? 0;
 
+  // limit=0 表示只需計數，跳過資料查詢
+  if (limit === 0) {
+    return [];
+  }
+
   const sql = `SELECT * FROM agents ${where} ORDER BY registered_at DESC LIMIT ? OFFSET ?`;
   params.push(limit, offset);
 

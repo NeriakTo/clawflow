@@ -118,6 +118,11 @@ export function findAll(filters: TaskFilters = {}): readonly Task[] {
   const limit = filters.limit ?? 100;
   const offset = filters.offset ?? 0;
 
+  // limit=0 表示只需計數，跳過資料查詢
+  if (limit === 0) {
+    return [];
+  }
+
   const sql = `SELECT * FROM tasks ${where} ORDER BY ${safeSortField} ${safeOrder} LIMIT ? OFFSET ?`;
   params.push(limit, offset);
 
