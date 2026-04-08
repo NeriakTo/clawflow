@@ -74,8 +74,8 @@ function layoutGraph(
         source: depId,
         target: task.id,
         animated: true,
-        style: { stroke: '#71717a' },
-        markerEnd: { type: MarkerType.ArrowClosed, color: '#71717a' },
+        style: { stroke: '#8a8f98' },
+        markerEnd: { type: MarkerType.ArrowClosed, color: '#8a8f98' },
       });
     }
   }
@@ -229,19 +229,19 @@ function DagView() {
         fitView
         proOptions={{ hideAttribution: true }}
       >
-        <Background color="#2e2e38" gap={20} />
+        <Background color="#28282c" gap={20} />
         <Controls
           style={{
-            backgroundColor: '#1a1a1f',
-            border: '1px solid #2e2e38',
+            backgroundColor: '#0f1011',
+            border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: '0.5rem',
           }}
         />
         <MiniMap
           nodeColor={miniMapNodeColor}
           style={{
-            backgroundColor: '#1a1a1f',
-            border: '1px solid #2e2e38',
+            backgroundColor: '#0f1011',
+            border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: '0.5rem',
           }}
         />

@@ -112,10 +112,20 @@ function AgentView() {
           return (
             <div
               key={agent.id}
-              className={`rounded-xl overflow-hidden transition-colors cursor-pointer bg-surface border ${
-                isExpanded ? 'border-accent' : 'border-border hover:border-gray-500'
-              }`}
+              className="rounded-xl overflow-hidden transition-colors cursor-pointer"
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.03)',
+                border: isExpanded
+                  ? '1px solid #5e6ad2'
+                  : '1px solid rgba(255,255,255,0.08)',
+              }}
               onClick={() => toggleExpand(agent.id)}
+              onMouseEnter={(e) => {
+                if (!isExpanded) (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.15)';
+              }}
+              onMouseLeave={(e) => {
+                if (!isExpanded) (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)';
+              }}
             >
               {/* 卡片標頭 */}
               <div className="p-4">
@@ -156,7 +166,13 @@ function AgentView() {
 
                 {/* 當前任務 */}
                 {currentTask && (
-                  <div className="rounded-lg px-3 py-2 mb-2 bg-accent/10 border border-accent/20">
+                  <div
+                    className="rounded-lg px-3 py-2 mb-2"
+                    style={{
+                      backgroundColor: 'rgba(94,106,210,0.1)',
+                      border: '1px solid rgba(94,106,210,0.2)',
+                    }}
+                  >
                     <div className="text-[10px] mb-0.5 text-accent">
                       當前任務
                     </div>
@@ -164,7 +180,10 @@ function AgentView() {
                       {currentTask.title}
                     </div>
                     {currentTask.progress > 0 && (
-                      <div className="w-full h-1 rounded-full mt-1.5 bg-border">
+                      <div
+                        className="w-full h-1 rounded-full mt-1.5"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+                      >
                         <div
                           className="h-full rounded-full bg-accent"
                           style={{ width: `${currentTask.progress}%` }}
@@ -180,7 +199,8 @@ function AgentView() {
                     {agent.capabilities.map((cap) => (
                       <span
                         key={cap}
-                        className="px-1.5 py-0.5 rounded text-[10px] bg-border text-text-secondary"
+                        className="px-1.5 py-0.5 rounded text-[10px] text-text-secondary"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
                       >
                         {cap}
                       </span>
@@ -191,7 +211,10 @@ function AgentView() {
 
               {/* 展開：歷史任務列表 */}
               {isExpanded && (
-                <div className="border-t border-border px-4 py-3">
+                <div
+                  className="px-4 py-3"
+                  style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
+                >
                   <div className="text-xs font-medium mb-2 text-text-secondary">
                     歷史任務（{agentTasks.length}）
                   </div>
@@ -204,7 +227,8 @@ function AgentView() {
                       {agentTasks.map((task) => (
                         <div
                           key={task.id}
-                          className="flex items-center justify-between px-2 py-1.5 rounded bg-surface2"
+                          className="flex items-center justify-between px-2 py-1.5 rounded"
+                          style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}
                         >
                           <span className="text-xs truncate flex-1 text-text">
                             {task.title}

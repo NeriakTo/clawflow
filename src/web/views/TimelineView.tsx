@@ -181,7 +181,10 @@ function TimelineView() {
   return (
     <div className="flex flex-col h-full">
       {/* 工具列 */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-border">
+      <div
+        className="flex items-center gap-3 px-4 py-3"
+        style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+      >
         <span className="text-sm text-text-secondary">
           時間刻度：
         </span>
@@ -190,11 +193,15 @@ function TimelineView() {
             <button
               key={opt.minutes}
               onClick={() => setScaleIndex(idx)}
-              className={`px-2.5 py-1 rounded text-xs font-medium transition-colors border ${
+              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
                 scaleIndex === idx
-                  ? 'bg-accent text-white border-accent'
-                  : 'bg-transparent text-text-secondary border-border hover:border-gray-500'
+                  ? 'bg-accent text-white'
+                  : 'text-text-secondary hover:text-text'
               }`}
+              style={scaleIndex === idx ? {} : {
+                backgroundColor: 'rgba(255,255,255,0.02)',
+                border: '1px solid rgba(255,255,255,0.08)',
+              }}
             >
               {opt.label}
             </button>
@@ -210,21 +217,30 @@ function TimelineView() {
       <div className="flex-1 flex overflow-hidden">
         {/* 左側：任務名稱 */}
         <div
-          className="flex-shrink-0 border-r border-border overflow-y-auto bg-surface"
-          style={{ width: LABEL_WIDTH }}
+          className="flex-shrink-0 overflow-y-auto bg-surface"
+          style={{
+            width: LABEL_WIDTH,
+            borderRight: '1px solid rgba(255,255,255,0.05)',
+          }}
         >
           {/* 標頭佔位 */}
           <div
-            className="border-b border-border px-3 flex items-center text-xs font-medium text-text-secondary"
-            style={{ height: 48 }}
+            className="px-3 flex items-center text-xs font-medium text-text-secondary"
+            style={{
+              height: 48,
+              borderBottom: '1px solid rgba(255,255,255,0.05)',
+            }}
           >
             任務
           </div>
           {sortedTasks.map((task) => (
             <div
               key={task.id}
-              className="flex items-center gap-2 px-3 border-b border-border"
-              style={{ height: ROW_HEIGHT }}
+              className="flex items-center gap-2 px-3"
+              style={{
+                height: ROW_HEIGHT,
+                borderBottom: '1px solid rgba(255,255,255,0.03)',
+              }}
             >
               <span
                 className="inline-block w-2 h-2 rounded-full flex-shrink-0"
@@ -245,16 +261,22 @@ function TimelineView() {
           <div style={{ minWidth: totalWidth }}>
             {/* 時間標頭 */}
             <div
-              className="flex border-b border-border sticky top-0 z-10 bg-bg"
-              style={{ height: 48 }}
+              className="flex sticky top-0 z-10 bg-bg"
+              style={{
+                height: 48,
+                borderBottom: '1px solid rgba(255,255,255,0.05)',
+              }}
             >
               {gridLabels.map((g, idx) => (
                 <div
                   key={idx}
-                  className="flex-shrink-0 flex flex-col items-center justify-center border-r border-border"
-                  style={{ width: CELL_WIDTH }}
+                  className="flex-shrink-0 flex flex-col items-center justify-center"
+                  style={{
+                    width: CELL_WIDTH,
+                    borderRight: '1px solid rgba(255,255,255,0.03)',
+                  }}
                 >
-                  <span className="text-[10px] text-text-muted font-['Fira_Code']">
+                  <span className="text-[10px] text-text-faint font-['Fira_Code']">
                     {g.dateLabel}
                   </span>
                   <span className="text-xs text-text-secondary font-['Fira_Code']">
@@ -270,10 +292,11 @@ function TimelineView() {
               {gridLabels.map((_, idx) => (
                 <div
                   key={idx}
-                  className="absolute top-0 bottom-0 border-r border-border/30"
+                  className="absolute top-0 bottom-0"
                   style={{
                     left: idx * CELL_WIDTH,
                     width: CELL_WIDTH,
+                    borderRight: '1px solid rgba(255,255,255,0.03)',
                   }}
                 />
               ))}
@@ -291,8 +314,11 @@ function TimelineView() {
                 return (
                   <div
                     key={task.id}
-                    className="relative border-b border-border/30"
-                    style={{ height: ROW_HEIGHT }}
+                    className="relative"
+                    style={{
+                      height: ROW_HEIGHT,
+                      borderBottom: '1px solid rgba(255,255,255,0.03)',
+                    }}
                   >
                     <div
                       className="absolute rounded cursor-pointer transition-opacity hover:opacity-80"
@@ -337,11 +363,13 @@ function TimelineView() {
       {/* Tooltip */}
       {tooltip && (
         <div
-          className="fixed z-50 rounded-lg px-3 py-2 pointer-events-none bg-surface border border-border"
+          className="fixed z-50 rounded-lg px-3 py-2 pointer-events-none"
           style={{
             left: tooltip.x,
             top: tooltip.y,
             transform: 'translate(-50%, -100%)',
+            backgroundColor: '#191a1b',
+            border: '1px solid rgba(255,255,255,0.08)',
           }}
         >
           <div className="text-xs font-medium mb-1 text-text">

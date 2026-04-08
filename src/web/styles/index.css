@@ -3,17 +3,31 @@
 @source "../../web";
 
 @theme {
-  --color-bg: #0e0e10;
-  --color-surface: #1a1a1f;
-  --color-surface2: #24242b;
-  --color-border: #2e2e38;
-  --color-text: #e4e4e7;
-  --color-text-secondary: #a1a1aa;
-  --color-text-muted: #71717a;
-  --color-accent: #4f8ff7;
+  /* Backgrounds - luminance stacking */
+  --color-bg: #08090a;
+  --color-surface: #0f1011;
+  --color-surface2: #191a1b;
+  --color-surface-hover: #28282c;
+
+  /* Text - 4 tiers */
+  --color-text: #f7f8f8;
+  --color-text-secondary: #d0d6e0;
+  --color-text-muted: #8a8f98;
+  --color-text-faint: #62666d;
+
+  /* Brand */
+  --color-accent: #5e6ad2;
+  --color-accent-hover: #828fff;
+
+  /* Status */
   --color-success: #22c55e;
   --color-warning: #eab308;
   --color-danger: #ef4444;
+
+  /* Borders - semi-transparent */
+  --color-border: rgba(255, 255, 255, 0.05);
+  --color-border-standard: rgba(255, 255, 255, 0.08);
+  --color-border-solid: #23252a;
 }
 
 * {
@@ -30,8 +44,8 @@ body,
 }
 
 body {
-  background-color: #0e0e10;
-  color: #e4e4e7;
+  background-color: #08090a;
+  color: #f7f8f8;
   font-family: 'Fira Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -43,23 +57,23 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0e0e10;
+  background: #08090a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2e2e38;
+  background: #28282c;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #71717a;
+  background: #8a8f98;
 }
 
 /* Modal overlay */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.60);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,8 +81,8 @@ body {
 }
 
 .modal-content {
-  background-color: #1a1a1f;
-  border: 1px solid #2e2e38;
+  background-color: #191a1b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 0.75rem;
   padding: 1.5rem;
   width: 90%;
@@ -83,6 +97,6 @@ body {
 }
 
 .drag-over {
-  background-color: rgba(79, 143, 247, 0.1);
-  border-color: #4f8ff7 !important;
+  background-color: rgba(94, 106, 210, 0.1);
+  border-color: #5e6ad2 !important;
 }

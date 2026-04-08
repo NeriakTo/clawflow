@@ -21,9 +21,12 @@ function Navbar({ currentView, onNavigate }: NavbarProps) {
   const connected = useWsStore((s) => s.connected);
 
   return (
-    <nav className="flex items-center justify-between px-6 py-3 border-b border-border bg-surface">
+    <nav
+      className="flex items-center justify-between px-6 py-3 bg-surface"
+      style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+    >
       <div className="flex items-center gap-6">
-        <span className="text-lg font-bold text-accent font-['Fira_Code']">
+        <span className="text-lg font-bold text-text font-['Fira_Code']">
           clawflow
         </span>
         <div className="flex gap-1">
@@ -33,10 +36,10 @@ function Navbar({ currentView, onNavigate }: NavbarProps) {
               <button
                 key={item.route}
                 onClick={() => onNavigate(item.route)}
-                className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-surface2 text-accent border-b-2 border-accent'
-                    : 'text-text-secondary hover:bg-surface2'
+                    ? 'text-accent'
+                    : 'text-text-secondary hover:text-text'
                 }`}
               >
                 {item.label}
@@ -47,7 +50,7 @@ function Navbar({ currentView, onNavigate }: NavbarProps) {
       </div>
       <div className="flex items-center gap-2 text-xs text-text-muted">
         <span
-          className={`inline-block w-2.5 h-2.5 rounded-full ${
+          className={`inline-block w-2 h-2 rounded-full ${
             connected ? 'bg-success' : 'bg-danger'
           }`}
         />

@@ -11,6 +11,12 @@ interface CreateTaskModalProps {
 
 const PRIORITY_OPTIONS: readonly TaskPriority[] = ['critical', 'high', 'medium', 'low'];
 
+/** 共用的 input/select 樣式 */
+const inputStyle = {
+  backgroundColor: 'rgba(255,255,255,0.02)',
+  border: '1px solid rgba(255,255,255,0.08)',
+};
+
 function CreateTaskModal({ onClose }: CreateTaskModalProps) {
   const createTask = useTaskStore((s) => s.createTask);
 
@@ -48,7 +54,7 @@ function CreateTaskModal({ onClose }: CreateTaskModalProps) {
   return (
     <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className="modal-content">
-        <h2 className="text-lg font-semibold mb-4 text-text">
+        <h2 className="text-lg font-medium mb-4 text-text">
           新增任務
         </h2>
         <form onSubmit={handleSubmit}>
@@ -63,7 +69,8 @@ function CreateTaskModal({ onClose }: CreateTaskModalProps) {
               onChange={(e) => setTitle(e.target.value)}
               required
               autoFocus
-              className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-bg border border-border text-text"
+              className="w-full px-3 py-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-accent text-text placeholder:text-text-faint"
+              style={inputStyle}
               placeholder="輸入任務標題"
             />
           </div>
@@ -75,7 +82,8 @@ function CreateTaskModal({ onClose }: CreateTaskModalProps) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              className="w-full px-3 py-2 rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent bg-bg border border-border text-text"
+              className="w-full px-3 py-2 rounded-md text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent text-text placeholder:text-text-faint"
+              style={inputStyle}
               placeholder="任務描述（選填）"
             />
           </div>
@@ -86,7 +94,8 @@ function CreateTaskModal({ onClose }: CreateTaskModalProps) {
             <select
               value={priority}
               onChange={(e) => setPriority(e.target.value as TaskPriority)}
-              className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none bg-bg border border-border text-text"
+              className="w-full px-3 py-2 rounded-md text-sm focus:outline-none text-text"
+              style={inputStyle}
             >
               {PRIORITY_OPTIONS.map((p) => (
                 <option key={p} value={p}>{p}</option>
@@ -101,7 +110,8 @@ function CreateTaskModal({ onClose }: CreateTaskModalProps) {
               type="text"
               value={tags}
               onChange={(e) => setTags(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none bg-bg border border-border text-text"
+              className="w-full px-3 py-2 rounded-md text-sm focus:outline-none text-text placeholder:text-text-faint"
+              style={inputStyle}
               placeholder="例：frontend, urgent"
             />
           </div>
@@ -113,7 +123,8 @@ function CreateTaskModal({ onClose }: CreateTaskModalProps) {
               type="text"
               value={assignee}
               onChange={(e) => setAssignee(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none bg-bg border border-border text-text"
+              className="w-full px-3 py-2 rounded-md text-sm focus:outline-none text-text placeholder:text-text-faint"
+              style={inputStyle}
               placeholder="Agent ID（選填）"
             />
           </div>
@@ -123,14 +134,18 @@ function CreateTaskModal({ onClose }: CreateTaskModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-1.5 rounded text-sm font-medium bg-border text-text"
+              className="px-4 py-1.5 rounded-md text-sm font-medium text-text"
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.02)',
+                border: '1px solid rgba(255,255,255,0.08)',
+              }}
             >
               取消
             </button>
             <button
               type="submit"
               disabled={saving || !title.trim()}
-              className="px-4 py-1.5 rounded text-sm font-medium text-white disabled:opacity-50 bg-accent"
+              className="px-4 py-1.5 rounded-md text-sm font-medium text-white disabled:opacity-50 bg-accent"
             >
               {saving ? '建立中...' : '建立'}
             </button>

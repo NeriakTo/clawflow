@@ -41,8 +41,11 @@ function DagTaskNode({ data }: NodeProps) {
 
   return (
     <div
-      className="rounded-lg px-3 py-2 min-w-[180px] max-w-[240px] bg-surface border-2 border-border"
-      style={{ borderColor }}
+      className="rounded-lg px-3 py-2 min-w-[180px] max-w-[240px]"
+      style={{
+        backgroundColor: 'rgba(255,255,255,0.03)',
+        border: `2px solid ${borderColor}`,
+      }}
     >
       <Handle type="target" position={Position.Top} style={{ background: borderColor }} />
 
@@ -64,12 +67,15 @@ function DagTaskNode({ data }: NodeProps) {
 
       {/* Progress bar */}
       {nodeData.progress > 0 && (
-        <div className="w-full h-1 rounded-full mb-1.5 bg-border">
+        <div
+          className="w-full h-1 rounded-full mb-1.5"
+          style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+        >
           <div
             className="h-full rounded-full transition-all"
             style={{
               width: `${nodeData.progress}%`,
-              backgroundColor: nodeData.progress === 100 ? '#22c55e' : '#4f8ff7',
+              backgroundColor: nodeData.progress === 100 ? '#22c55e' : '#5e6ad2',
             }}
           />
         </div>

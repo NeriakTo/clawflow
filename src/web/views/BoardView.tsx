@@ -95,24 +95,35 @@ function BoardView() {
   /** 收集所有不重複的 tags */
   const allTags = [...new Set(tasks.flatMap((t) => [...t.tags]))];
 
+  /** 共用的 input/select 樣式 */
+  const inputStyle = {
+    backgroundColor: 'rgba(255,255,255,0.02)',
+    border: '1px solid rgba(255,255,255,0.08)',
+  };
+
   return (
     <div className="flex flex-col h-full">
       {/* 頂部工具列 */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-border">
+      <div
+        className="flex items-center gap-3 px-4 py-3"
+        style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+      >
         {/* 搜尋 */}
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="搜尋任務..."
-          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent w-64 bg-surface2 border border-border text-text"
+          className="px-3 py-1.5 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-accent w-64 text-text placeholder:text-text-faint"
+          style={inputStyle}
         />
 
         {/* 優先級篩選 */}
         <select
           value={filters.priority ?? ''}
           onChange={(e) => { const v = e.target.value; setFilters({ ...filters, priority: v ? v as TaskPriority : undefined }); }}
-          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none bg-surface2 border border-border text-text"
+          className="px-3 py-1.5 rounded-md text-sm focus:outline-none text-text"
+          style={inputStyle}
         >
           <option value="">所有優先級</option>
           {PRIORITY_OPTIONS.map((p) => (
@@ -124,7 +135,8 @@ function BoardView() {
         <select
           value={filters.assignee ?? ''}
           onChange={(e) => { const v = e.target.value; setFilters({ ...filters, assignee: v || undefined }); }}
-          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none bg-surface2 border border-border text-text"
+          className="px-3 py-1.5 rounded-md text-sm focus:outline-none text-text"
+          style={inputStyle}
         >
           <option value="">所有 Agent</option>
           {agents.map((a) => (
@@ -136,7 +148,8 @@ function BoardView() {
         <select
           value={filters.tag ?? ''}
           onChange={(e) => { const v = e.target.value; setFilters({ ...filters, tag: v || undefined }); }}
-          className="px-3 py-1.5 rounded-lg text-sm focus:outline-none bg-surface2 border border-border text-text"
+          className="px-3 py-1.5 rounded-md text-sm focus:outline-none text-text"
+          style={inputStyle}
         >
           <option value="">所有標籤</option>
           {allTags.map((tag) => (
@@ -149,7 +162,7 @@ function BoardView() {
         {/* 新增任務按鈕 */}
         <button
           onClick={() => setShowCreateModal(true)}
-          className="px-4 py-1.5 rounded-lg text-sm font-medium text-white bg-accent"
+          className="px-3 py-1.5 rounded-md text-sm font-medium text-white bg-accent hover:opacity-90 transition-opacity"
         >
           + 新增任務
         </button>
@@ -157,7 +170,13 @@ function BoardView() {
 
       {/* 錯誤訊息 */}
       {error && (
-        <div className="mx-4 mt-2 px-3 py-2 rounded text-sm bg-red-500/10 text-danger border border-danger">
+        <div
+          className="mx-4 mt-2 px-3 py-2 rounded-md text-sm text-danger"
+          style={{
+            backgroundColor: 'rgba(239,68,68,0.1)',
+            border: '1px solid rgba(239,68,68,0.3)',
+          }}
+        >
           {error}
         </div>
       )}
@@ -178,23 +197,37 @@ function BoardView() {
           return (
             <div
               key={col.status}
-              className={`flex flex-col min-w-[280px] w-[280px] rounded-xl border bg-surface transition-colors ${
-                isDragOver ? 'border-accent bg-accent/5' : 'border-border'
-              }`}
+              className="flex flex-col min-w-[280px] w-[280px] rounded-xl transition-colors"
+              style={{
+                backgroundColor: '#0f1011',
+                border: isDragOver
+                  ? '1px solid #5e6ad2'
+                  : '1px solid rgba(255,255,255,0.05)',
+                ...(isDragOver ? { backgroundColor: 'rgba(94,106,210,0.05)' } : {}),
+              }}
               onDragOver={(e) => handleDragOver(e, col.status)}
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, col.status)}
             >
               {/* 欄位標頭 */}
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-inherit">
+              <div
+                className="flex items-center gap-2 px-4 py-3"
+                style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+              >
                 <span
                   className="inline-block h-3 w-3 rounded-full"
                   style={{ backgroundColor: col.color }}
                 />
-                <span className="font-semibold text-sm text-text">
+                <span className="font-medium text-sm text-text">
                   {col.label}
                 </span>
-                <span className="text-xs px-1.5 py-0.5 rounded-md bg-surface2 text-text-muted font-['Fira_Code']">
+                <span
+                  className="text-xs px-1.5 py-0.5 rounded-md font-['Fira_Code']"
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,0.05)',
+                    color: '#8a8f98',
+                  }}
+                >
                   {columnTasks.length}
                 </span>
               </div>
@@ -209,7 +242,7 @@ function BoardView() {
                   />
                 ))}
                 {columnTasks.length === 0 && !loading && (
-                  <div className="text-center py-8 text-sm text-text-muted">
+                  <div className="text-center py-8 text-sm text-text-faint">
                     尚無任務
                   </div>
                 )}

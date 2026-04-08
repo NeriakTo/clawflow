@@ -15,6 +15,12 @@ interface TaskModalProps {
 const STATUS_OPTIONS: readonly TaskStatus[] = ['backlog', 'todo', 'in_progress', 'review', 'done', 'archived'];
 const PRIORITY_OPTIONS: readonly TaskPriority[] = ['critical', 'high', 'medium', 'low'];
 
+/** 共用的 input/select 樣式 */
+const inputStyle = {
+  backgroundColor: 'rgba(255,255,255,0.02)',
+  border: '1px solid rgba(255,255,255,0.08)',
+};
+
 function TaskModal({ task, onClose }: TaskModalProps) {
   const updateTask = useTaskStore((s) => s.updateTask);
   const deleteTask = useTaskStore((s) => s.deleteTask);
@@ -90,7 +96,8 @@ function TaskModal({ task, onClose }: TaskModalProps) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="w-full px-3 py-2 rounded-lg mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent bg-bg border border-border text-text"
+            className="w-full px-3 py-2 rounded-md mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent text-text"
+            style={inputStyle}
             placeholder="任務標題"
           />
 
@@ -99,7 +106,8 @@ function TaskModal({ task, onClose }: TaskModalProps) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
-            className="w-full px-3 py-2 rounded-lg mb-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent bg-bg border border-border text-text"
+            className="w-full px-3 py-2 rounded-md mb-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent text-text placeholder:text-text-faint"
+            style={inputStyle}
             placeholder="任務描述（選填）"
           />
 
@@ -110,7 +118,8 @@ function TaskModal({ task, onClose }: TaskModalProps) {
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as TaskStatus)}
-                className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none bg-bg border border-border text-text"
+                className="w-full px-3 py-2 rounded-md text-sm focus:outline-none text-text"
+                style={inputStyle}
               >
                 {STATUS_OPTIONS.map((s) => (
                   <option key={s} value={s}>{s}</option>
@@ -122,7 +131,8 @@ function TaskModal({ task, onClose }: TaskModalProps) {
               <select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value as TaskPriority)}
-                className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none bg-bg border border-border text-text"
+                className="w-full px-3 py-2 rounded-md text-sm focus:outline-none text-text"
+                style={inputStyle}
               >
                 {PRIORITY_OPTIONS.map((p) => (
                   <option key={p} value={p}>{p}</option>
@@ -138,7 +148,8 @@ function TaskModal({ task, onClose }: TaskModalProps) {
               type="text"
               value={tags}
               onChange={(e) => setTags(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg text-sm focus:outline-none bg-bg border border-border text-text"
+              className="w-full px-3 py-2 rounded-md text-sm focus:outline-none text-text placeholder:text-text-faint"
+              style={inputStyle}
               placeholder="例：frontend, urgent"
             />
           </div>
@@ -151,7 +162,8 @@ function TaskModal({ task, onClose }: TaskModalProps) {
                 {task.dependencies.map((depId) => (
                   <span
                     key={depId}
-                    className="px-2 py-0.5 rounded text-xs bg-border text-text-secondary"
+                    className="px-2 py-0.5 rounded text-xs text-text-secondary"
+                    style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
                   >
                     {depId.slice(0, 8)}...
                   </span>
@@ -165,12 +177,15 @@ function TaskModal({ task, onClose }: TaskModalProps) {
             <label className="block text-xs mb-1 text-text-muted">
               進度：{task.progress}%
             </label>
-            <div className="w-full h-2 rounded-full bg-border">
+            <div
+              className="w-full h-2 rounded-full"
+              style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+            >
               <div
                 className="h-full rounded-full"
                 style={{
                   width: `${task.progress}%`,
-                  backgroundColor: task.progress === 100 ? '#22c55e' : '#4f8ff7',
+                  backgroundColor: task.progress === 100 ? '#22c55e' : '#5e6ad2',
                 }}
               />
             </div>
@@ -181,7 +196,7 @@ function TaskModal({ task, onClose }: TaskModalProps) {
             <button
               type="button"
               onClick={handleDelete}
-              className="px-3 py-1.5 rounded text-sm font-medium text-danger"
+              className="px-3 py-1.5 rounded-md text-sm font-medium text-danger"
             >
               刪除
             </button>
@@ -189,14 +204,18 @@ function TaskModal({ task, onClose }: TaskModalProps) {
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-1.5 rounded text-sm font-medium bg-border text-text"
+                className="px-4 py-1.5 rounded-md text-sm font-medium text-text"
+                style={{
+                  backgroundColor: 'rgba(255,255,255,0.02)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                }}
               >
                 取消
               </button>
               <button
                 type="submit"
                 disabled={saving || !title.trim()}
-                className="px-4 py-1.5 rounded text-sm font-medium text-white disabled:opacity-50 bg-accent"
+                className="px-4 py-1.5 rounded-md text-sm font-medium text-white disabled:opacity-50 bg-accent"
               >
                 {saving ? '儲存中...' : '儲存'}
               </button>

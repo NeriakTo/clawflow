@@ -44,7 +44,7 @@ function DonutChart({ completed, total }: { readonly completed: number; readonly
         cy={size / 2}
         r={radius}
         fill="none"
-        stroke="#2e2e38"
+        stroke="rgba(255,255,255,0.05)"
         strokeWidth={strokeWidth}
       />
       {/* 進度環 */}
@@ -67,7 +67,7 @@ function DonutChart({ completed, total }: { readonly completed: number; readonly
         y="50%"
         textAnchor="middle"
         dominantBaseline="central"
-        fill="#e4e4e7"
+        fill="#f7f8f8"
         fontSize="24"
         fontWeight="bold"
         fontFamily="'Fira Code', monospace"
@@ -89,7 +89,13 @@ function StatCard({
   readonly color: string;
 }) {
   return (
-    <div className="rounded-xl p-4 flex flex-col gap-1 bg-surface border border-border">
+    <div
+      className="rounded-xl p-4 flex flex-col gap-1"
+      style={{
+        backgroundColor: 'rgba(255,255,255,0.03)',
+        border: '1px solid rgba(255,255,255,0.08)',
+      }}
+    >
       <span className="text-xs text-text-muted">
         {label}
       </span>
@@ -163,21 +169,27 @@ function DashboardView() {
   const displayStats = stats ?? localStats;
   const maxLoad = agentLoad.length > 0 ? Math.max(...agentLoad.map((a) => a.count)) : 1;
 
+  /** 共用的面板樣式 */
+  const panelStyle = {
+    backgroundColor: 'rgba(255,255,255,0.03)',
+    border: '1px solid rgba(255,255,255,0.08)',
+  };
+
   return (
     <div className="h-full overflow-y-auto p-4">
       <div className="max-w-6xl mx-auto">
         {/* 統計卡片列 */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <StatCard label="任務總數" value={displayStats.total} color="#e4e4e7" />
-          <StatCard label="進行中" value={displayStats.inProgress} color="#4f8ff7" />
+          <StatCard label="任務總數" value={displayStats.total} color="#f7f8f8" />
+          <StatCard label="進行中" value={displayStats.inProgress} color="#5e6ad2" />
           <StatCard label="已完成" value={displayStats.done} color="#22c55e" />
           <StatCard label="失敗" value={displayStats.failed} color="#ef4444" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* 完成率環形圖 */}
-          <div className="rounded-xl p-4 bg-surface border border-border">
-            <h3 className="text-sm font-semibold text-text mb-4">
+          <div className="rounded-xl p-4" style={panelStyle}>
+            <h3 className="text-sm font-medium text-text mb-4">
               完成率
             </h3>
             <div className="flex items-center justify-center">
@@ -190,8 +202,8 @@ function DashboardView() {
           </div>
 
           {/* Agent 負載分配 */}
-          <div className="rounded-xl p-4 bg-surface border border-border">
-            <h3 className="text-sm font-semibold text-text mb-4">
+          <div className="rounded-xl p-4" style={panelStyle}>
+            <h3 className="text-sm font-medium text-text mb-4">
               Agent 負載分配
             </h3>
             {agentLoad.length === 0 ? (
@@ -206,7 +218,10 @@ function DashboardView() {
                       <span className="text-text-secondary">{item.agentName}</span>
                       <span className="text-text-muted">{item.count} 個任務</span>
                     </div>
-                    <div className="w-full h-2 rounded-full bg-border">
+                    <div
+                      className="w-full h-2 rounded-full"
+                      style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+                    >
                       <div
                         className="h-full rounded-full transition-all bg-accent"
                         style={{
@@ -221,8 +236,8 @@ function DashboardView() {
           </div>
 
           {/* 最近事件時間線 */}
-          <div className="rounded-xl p-4 bg-surface border border-border">
-            <h3 className="text-sm font-semibold text-text mb-4">
+          <div className="rounded-xl p-4" style={panelStyle}>
+            <h3 className="text-sm font-medium text-text mb-4">
               最近事件
             </h3>
             {events.length === 0 ? (
@@ -232,7 +247,11 @@ function DashboardView() {
             ) : (
               <div className="flex flex-col gap-0 max-h-[400px] overflow-y-auto">
                 {events.map((evt) => (
-                  <div key={evt.id} className="flex items-start gap-3 py-2 border-b border-border/30 last:border-b-0">
+                  <div
+                    key={evt.id}
+                    className="flex items-start gap-3 py-2 last:border-b-0"
+                    style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}
+                  >
                     {/* 時間線圓點 */}
                     <div className="flex flex-col items-center pt-1">
                       <span
@@ -257,11 +276,14 @@ function DashboardView() {
         </div>
 
         {/* 任務狀態分布（底部小圖） */}
-        <div className="rounded-xl p-4 mt-4 bg-surface border border-border">
-          <h3 className="text-sm font-semibold text-text mb-3">
+        <div className="rounded-xl p-4 mt-4" style={panelStyle}>
+          <h3 className="text-sm font-medium text-text mb-3">
             任務狀態分布
           </h3>
-          <div className="flex gap-2 h-4 rounded-full overflow-hidden bg-border">
+          <div
+            className="flex gap-2 h-4 rounded-full overflow-hidden"
+            style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+          >
             {tasks.length > 0 &&
               (['backlog', 'todo', 'in_progress', 'review', 'done', 'archived'] as const).map((status) => {
                 const count = tasks.filter((t) => t.status === status).length;
